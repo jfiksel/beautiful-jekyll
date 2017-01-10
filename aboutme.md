@@ -1,16 +1,9 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+I am a proud graduate of Pomona College and current second year PhD student in the [Johns Hopkins Bloomberg School of Public Health Department of Biostatistics](http://www.jhsph.edu/departments/biostatistics/). My current advisor is [Dr. Rob Scharpf](http://www.jhsph.edu/faculty/directory/profile/2562/robert-scharpf), with whom I collaborate with [Dr. Victor Velculescu's](https://igm.jhmi.edu/faculty/Victor-Velculescu) lab on problems related to cancer genomics. I am also a co-leader, along with Lamar Hunt III, of the department's [computing club](http://www.biostat.jhsph.edu/~ydu/comp_club.html). 
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+Please feel free to browse my blog and use the links at the bottom of the page to get in contact with me!
 
-What else do you need?
-
-### my history
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
