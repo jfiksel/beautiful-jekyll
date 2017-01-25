@@ -19,12 +19,13 @@ title: Jacob Fiksel
 # Short description of your site
 description: Site & Blog
 
+
 # --- Navigation bar options --- #
 
 # List of links in the navigation bar
 navbar-links:
   About Me: "aboutme"
-  Blog: ""
+  Blog: "blog"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -41,7 +42,7 @@ avatar: "/img/zoomed_pic.jpg"
 author:
   name: Jacob Fiksel
   email: "jfiksel@gmail.com.com"
-  github: jfiksel   
+  github: jfiksel
   twitter: jfiksel1
 
 # Select which links to show in the footer
