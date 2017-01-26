@@ -62,11 +62,13 @@ If you made plots, like I did earlier, you'll also have to go to those locations
 ![](hello-world_files/figure-markdown_github/hi-1.png)
 ```
 
-You want to edit that to read
+I edited that to read
 
-``` r
+{% raw %}
+```
 ![]({{ site.url }}/img/blog_images/hello-world_files/figure-markdown_github/hi-1.png)
 ```
+{% endraw %}
 
 You may need to make some more manual changes, as the conversion from R Markdown to Markdown is not perfect. Read over your .md document before moving to the next step.
 
@@ -93,7 +95,6 @@ for file in *.Rmd; do
     cp $markdown $markdown_output
     cp -r $post_files ../img/blog_images
     touch $status_check
-  #  echo $status_check
   fi
 done
 ```
