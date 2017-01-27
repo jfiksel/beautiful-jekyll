@@ -2,7 +2,7 @@
 layout: post
 title: Blogging with Beautiful Jekyll and R Markdown
 subtitle: How I got my website and blog set up!
-tags: [R, RStudio, Jekyll, Github, Markdown]
+tags: [R, RStudio, Jekyll, Github, Markdown, r-bloggers, rstats]
 ---
 
 In this first post, I want to let you know how I created this website with GitHub Pages/Jekyll and my setup for making posts with RStudio. I decided to use the [Beautiful Jekyll template from Dean Attali](http://deanattali.com/beautiful-jekyll/) based off a recommendation from [Matt Cole](https://mattkcole.com). Getting it set up is extremely easy--make sure you have a [GitHub](https://github.com) account, click on the template link in the previous sentence, and follow his instructions. Once you have your own repository (i.e. followed the first two steps of Dean's instructions), I recommend cloning the repistory into your local computer to make changes. The reason for this is that you can use the command line to preview the site locally before pushing to your repo and publishing your work on the web. You can do this by first [downloading Jekyll](http://jekyllrb.com/docs/installation/), then simply enter the following code on the command line
@@ -114,4 +114,4 @@ This script is fully accessible on the Github repository for this website, insid
 
 **7.** Once you are fully happy, push your changes, and admire your post on your fancy new website! 
 
-I hope this was helpful! Please leave any comments or questions that you have, and I look forward to making more posts in the future.
+I hope this was helpful! If you would like to see more blog posts about R and RStudio, I highly recommend checking out [R-bloggers](https://www.r-bloggers.com). Please leave any comments or questions that you have, and I look forward to making more posts in the future.

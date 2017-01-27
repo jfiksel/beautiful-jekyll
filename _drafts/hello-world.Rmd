@@ -105,4 +105,4 @@ This script is fully accessible on the Github repository for this website, insid
 
 **7.** Once you are fully happy, push your changes, and admire your post on your fancy new website! 
 
-I hope this was helpful! Please leave any comments or questions that you have, and I look forward to making more posts in the future.
+I hope this was helpful! If you would like to see more blog posts about R and RStudio, I highly recommend checking out [R-bloggers](https://www.r-bloggers.com). Please leave any comments or questions that you have, and I look forward to making more posts in the future.
