@@ -1,5 +1,5 @@
 #!/bin/bash
-echo Which post file do you want to post?
+echo Which file do you want to post?
 read -e -p "Post:" file
 file="${file}.Rmd"
 post=${file//.Rmd}

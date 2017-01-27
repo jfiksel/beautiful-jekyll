@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hello World
+title: Blogging with Beautiful Jekyll and R Markdown
 subtitle: How I got my website and blog set up!
-tags: [R, statistics, Jekyll, Github, Markdown]
+tags: [R, RStudio, Jekyll, Github, Markdown]
 ---

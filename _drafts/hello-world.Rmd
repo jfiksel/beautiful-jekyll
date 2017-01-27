@@ -1,21 +1,16 @@
 ---
-#title: "Hello World"
-#author: "Jacob Fiksel"
-#date: '`r Sys.Date()`'
 output:
   html_document:
     keep_md: true
 ---
 
-Hey there and welcome to my blog! I hope to use this as a forum to post my thoughts on current trends in public health, statistics, and genomics, as well as a way to give useful tips for using R. In this first post, I want to let you know how I created this website with GitHub Pages/Jekyll and my setup for making posts with RStudio. 
-
-I decided to use the [Beautiful Jekyll template from Dean Attali](http://deanattali.com/beautiful-jekyll/) based off a recommendation from [Matt Cole](https://mattkcole.com). Getting it set up is extremely easy--make sure you have a [GitHub](https://github.com) account, click on the template link in the previous sentence, and follow his instructions. Once you have your own repository (i.e. followed the first two steps of Dean's instructions), I recommend cloning the repistory into your local computer to make changes. This reason for this is that you can use the command line to preview the site locally before pushing to your repo and publishing your work on the web. You can do this by first [downloading Jekyll](http://jekyllrb.com/docs/installation/), then simply enter the following code on the command line
+In this first post, I want to let you know how I created this website with GitHub Pages/Jekyll and my setup for making posts with RStudio. I decided to use the [Beautiful Jekyll template from Dean Attali](http://deanattali.com/beautiful-jekyll/) based off a recommendation from [Matt Cole](https://mattkcole.com). Getting it set up is extremely easy--make sure you have a [GitHub](https://github.com) account, click on the template link in the previous sentence, and follow his instructions. Once you have your own repository (i.e. followed the first two steps of Dean's instructions), I recommend cloning the repistory into your local computer to make changes. The reason for this is that you can use the command line to preview the site locally before pushing to your repo and publishing your work on the web. You can do this by first [downloading Jekyll](http://jekyllrb.com/docs/installation/), then simply enter the following code on the command line
 
 ```{bash, eval=FALSE}
 bundle exec jekyll serve
 ```
 
-I made an alias for this (I called the command preview) so that I don't have to remember that command each time I want to preview my site. Once you are happy with your changes, commit them, and push to the Github repo. 
+I made an alias for this in my .bash_profile (I called the command `preview`) so that I don't have to remember that command each time I want to preview my site. Once you are happy with your changes, commit them, and push to the Github repo. 
 
 Now for blogging. For each post, I plan to initially make [R Markdown](http://rmarkdown.rstudio.com), rather than [Markdown](http://daringfireball.net/projects/markdown/), files for my blog posts for two main reasons. First, I'm used to using [RStudio](https://www.rstudio.com) to create .Rmd documents for my analyses. Second, it's easier for me to integrate R code chunks and plots such as:
 
@@ -28,73 +23,86 @@ plot(x,y, pch=19, xlab="", ylab = "", xaxt='n', yaxt='n')
 
 The problem I run into with this is that Github pages currently only allows posts to be in the Markdown format. My current workflow, heavily borrowed from [Shirin](https://shiring.github.io/blogging/2016/12/04/diy_your_own_blog), to (somewhat efficiently) get around this is the following:
 
-1. Make a _drafts directory in which you can develop all of your blog posts. I also recommend creating a directory called blog_images inside of the img directory--more on this later 
-2. Using an editor of your choice, create a .md document that only contains the desired YAML header for your post. For example, the header for this post is
+**1.** Make a \_drafts directory in which you can develop all of your blog posts. I also recommend creating a directory called blog_images inside of the img directory--more on this later 
+
+**2.** Using an editor of your choice, create a .md document that only contains the desired YAML header for your post. For example, the header for this post is
 ```{r, eval=FALSE}
 ---
 layout: post
-title: Hello World
+title: Blogging with Beautiful Jekyll and R Markdown
 subtitle: How I got my website and blog set up!
-tags: [R, statistics, Jekyll, Github, Markdown]
+tags: [R, RStudio, Jekyll, Github, Markdown]
 ---
 ```
 
-Save this in your _drafts directory. You can save this as anything you like, but I recommend using the format \<name_of_post\>-header.md.
+Save this in your \_drafts directory as \<name_of_post\>-header.md.
 
-{:start="3"}
-3. In RStudio, create a new R Markdown file and set the default output format to HTML. Replace the 
+**3.** In RStudio, create a new R Markdown file and set the default output format to HTML. Replace the full header, which will look something like this: 
 ```{r, eval=FALSE}
+---
+title: "Hello World"
+author: "Jacob Fiksel"
+date: "1/26/2017"
 output: html_document
+---
 ```
-line at the top of the R Markdown document with
+
+with
+
 ```{r, eval=FALSE}
 output:
   html_document:
-    includes:
-      in_header: hello-world-header.md
     keep_md: true
 ```
 
-This serves two purposes. First, every time you knit the .Rmd file, you can preview how it looks in html, and R will automatically create the .md file you will use for the Github post. Second, the header you created in the previous step will always be included in the .md file, which means you don't have to manually add this each time you make a change in the .Rmd file. Save this .Rmd file inside of your _drafts directory.
+This allows you to preview how it looks in html after each time you hit `Knit HTML` in RStudio, and R will automatically create the .md file you will use for the Github post. Save this .Rmd file inside of your \_drafts directory as \<name_of_post\>.Rmd.
 
-{:start="4"}
-4. Write a post! 
+**4.** Write a post! 
 
-5. Once you're happy with your post, knit the .Rmd document for the final time. To get the post onto our website, we simply have to move and rename some documents. Luckily, I've written a shell script that you can copy and use (mine is called make_post.sh). It assumes that each .Rmd document corresponds to a different post. It copies the .md document corresponding to that post into the _posts directory (renaming it with the date in front), as well as moving all of the files that were created after knitting your R Markdown file (such as your plots) into the blog_images directory. I've set it up so that it only does this for new posts. If you want to make an update to a post, simply go into the status directory created by this script, and delete the corresponding file. The script is set up so that the updated post will have the same date as the original post. Also, this may not work if you're on a Windows--sorry 'bout that! 
+**5.** Once you're happy with your post, knit the .Rmd document for the final time. To get the post onto our website, we simply have to move and rename some documents. Luckily, I've written a shell script that you can copy and use (mine is called make\_post.sh). It will ask you which file you want to post. If you saved your .Rmd file as \<name_of_post\>.Rmd, simply type in \<name_of_post\>. For example, I saved this file as hello-world.Rmd, so each time I run the script, I type in `hello-world` when prompted. The script will ask you if you want to add the header you created earlier to the .md document corresponding to that post. Most likely you will always want to add the header (enter `y` when prompted), but if you just made a quick change directly to the .md document after the header was already inserted, enter `n` instead. The script copies the .md document  into the \_posts directory (renaming it with the date in front), moves all of the files that were created after knitting your R Markdown file (such as your plots) into the blog_images directory, and updates the .md document with the new locations for those files. The updated post will have the same date as the original post. Also, this may not work if you're on a Windows--sorry 'bout that! 
 ```{bash, eval=FALSE}
 #!/bin/bash
-if [ ! -d ./status ]
+echo Which file do you want to post?
+read -e -p "Post:" file
+file="${file}.Rmd"
+post=${file//.Rmd}
+markdown="${post}.md"
+header="${post}-header.md"
+echo Do you want to add a header? Enter y or n
+read header_y_n
+if [ $header_y_n == "y" ]
 then
-    mkdir status
+  cp $header temp_post.md
+  cat $markdown >> temp_post.md
+  mv temp_post.md $markdown
 fi
-for file in *.Rmd; do
-  post=${file//.Rmd}
-  markdown="${post}.md"
-  post_files="${post}_files"
-  date=`date +%Y-%m-%d`
-  markdown_for_post="${date}-${markdown}"
-  wd=$PWD
-  cd ../_posts/
-  if [ -f *${markdown} ]
-  then
-    markdown_for_post=*${markdown}
-  fi
-  cd $wd
-  status_check="./status/${post}.ck"
-  markdown_output="../_posts/${markdown_for_post}"
-  if [ ! -f $status_check ]
-  then
-    cp $markdown $markdown_output
-    cp -r $post_files ../img/blog_images
-    #touch $status_check
-  #  echo $status_check
-  fi
-done
+perl -pi -e 's/!\[]\(/!\[]\(\{\{site_url\}\}\/img\/blog_images\//g' $markdown
+post_files="${post}_files"
+date=`date +%Y-%m-%d`
+markdown_for_post="${date}-${markdown}"
+wd=$PWD
+cd ../_posts/
+if [ -f *${markdown} ]
+then
+  markdown_for_post=*${markdown}
+fi
+cd $wd
+markdown_output="../_posts/${markdown_for_post}"
+cp $markdown $markdown_output
+cp -r $post_files ../img/blog_images
+
+if diff $markdown_output $markdown >/dev/null; then
+  echo "Your post was succesfully moved";
+else
+  echo "There was an error in moving your post";
+fi
+
 ```
 
-{:start="6"}
-6. Once you run the script and the .md file is in your _posts directory, preview your site and post by going to the main website directory and using the command I described earlier. The conversion from R Markdown to Markdown is not perfect, so you may have to make some changes in the .md document. For example, if you made plots, like I did earlier, you'll have to go to those locations in the .md document and edit it. In the original .md document, the code used was:
+This script is fully accessible on the Github repository for this website, inside of the \_drafts directory.
 
-7. Once you are fully happy, push your changes, and admire your post on your fancy new website! 
+**6.** Once you run the script (if your script is in your \_drafts directory, make sure you are also in that directory, and enter `./make_post.sh` in the command line) and the .md file is in your \_posts directory, preview your site and post by going to the main website directory and using the command I described earlier. The conversion from R Markdown to Markdown is not perfect, so you may have to make some changes in the .md document. I learned the hard way that code blocks and numbered lists do not go well together in Markdown.
+
+**7.** Once you are fully happy, push your changes, and admire your post on your fancy new website! 
 
 I hope this was helpful! Please leave any comments or questions that you have, and I look forward to making more posts in the future.
