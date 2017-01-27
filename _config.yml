@@ -22,7 +22,12 @@ description: Site & Blog
 # making the blog a seperate page (not the index)
 #paginate_path: "/blog/page:num/"
 # --- Navigation bar options --- #
-
+timezone: "America/New_York"
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:title/
+paginate: 10
+paginate_path: "/page:num/"
 # List of links in the navigation bar
 navbar-links:
   Blog: ""
