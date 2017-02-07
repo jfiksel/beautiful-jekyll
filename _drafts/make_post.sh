@@ -13,6 +13,7 @@ then
   cat $markdown >> temp_post.md
   mv temp_post.md $markdown
 fi
+perl -pi -e 's/..\/img\/blog_images\///g' $markdown
 perl -pi -e 's/!\[]\(/!\[]\(\{\{site_url\}\}\/img\/blog_images\//g' $markdown
 post_files="${post}_files"
 date=`date +%Y-%m-%d`
