@@ -14,7 +14,7 @@ Before we get started, here is the code to download all of the packages we'll be
 install.packages('jsonlite')
 install.packages('rgdal')
 install.packages('ggplot2')
-install.packages('ggmap')
+install.packages('ggmap', type = 'source')
 install.packages('downloader')
 install.packages('dplyr')
 install.packages('sp')
