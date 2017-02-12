@@ -16,13 +16,15 @@ Before we get started, here is the code to download all of the packages we'll be
 install.packages('jsonlite')
 install.packages('rgdal')
 install.packages('ggplot2')
-install.packages('ggmap')
 install.packages('downloader')
 install.packages('dplyr')
 install.packages('sp')
 install.packages('maptools')
+install.packages('rgeos')
 install.packages('plyr')
 install.packages('curl')
+install.packages('devtools')
+devtools::install_github("dkahle/ggmap")
 ```
 
 We will be visualizing life expectancy in the 55 Community Statistical Areas (CSAs) within Baltimore, so we want to grab the geographic coordinates for the borders of these CSAs. Luckily, R can import this type of information, which is usually contained in shapefiles (there is a [Wikipedia page](https://en.wikipedia.org/wiki/Shapefile) about shapefiles if you're interested in learning more about the format). To find the shapefiles, I simply googled "shapefiles baltimore csa" and ended up [here](http://bniajfi.org/mapping-resources/). We want the most recent Community Statistical Areas (CSAs) shapefiles, which as of now is 2010. 
@@ -135,12 +137,13 @@ ggmap(myggmap) + xlab("Longitude") + ylab("Latitude")
 
 ![]({{site_url}}/img/blog_images/visualizing-life-expectancy-in-baltimore-with-ggmap_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
-Cool! Now we want to overlay the CSA boundaries. I'm going to use some code to get the SpatialPolgyonsDataFrame Polygons to a data frame that can be used in plotting that I found in the [tidyverse GitHub repo](https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles)
+Cool! Now we want to overlay the CSA boundaries. I'm going to use some code to get the SpatialPolgyonsDataFrame Polygons to a data frame that can be used in plotting that I found in the [tidyverse GitHub repo](https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles). Some people have been having problems with this section, hopefully [this StackExchange post](http://stackoverflow.com/questions/30790036/error-istruegpclibpermitstatus-is-not-true) can solve those problems.
 
 
 ```r
 library(maptools)
 library(plyr)
+library(rgeos)
 csa@data$id <- csa@data$Community
 csa.points <- fortify(csa, region="id")
 csa.df <- join(csa.points, csa@data, by="id")

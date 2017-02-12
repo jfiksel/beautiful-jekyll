@@ -16,16 +16,18 @@ Before we get started, here is the code to download all of the packages we'll be
 install.packages('jsonlite')
 install.packages('rgdal')
 install.packages('ggplot2')
-install.packages('ggmap', type = 'source')
 install.packages('downloader')
 install.packages('dplyr')
 install.packages('sp')
 install.packages('maptools')
+install.packages('rgeos')
 install.packages('plyr')
 install.packages('curl')
+install.packages('devtools')
+devtools::install_github("dkahle/ggmap")
 ```
 
-We will be visualizing life expectancy in the 55 Community Statistical Areas (CSAs) within Baltimore, so we want to grab the geographic coordinates for the borders of these CSAs. Luckily, R can import this type of information, which is usually contained in shapefiles (there is a [Wikipedia page](https://en.wikipedia.org/wiki/Shapefile) about shapefiles if you're interested in learning more about the format). To find the shapefiles, I simply googled "shapefiles baltimore csa" and ended up [here](http://bniajfi.org/mapping-resources/). We want the most recent Community Statistical Areas (CSAs) shapefiles, which as of now is 2010.
+We will be visualizing life expectancy in the 55 Community Statistical Areas (CSAs) within Baltimore, so we want to grab the geographic coordinates for the borders of these CSAs. Luckily, R can import this type of information, which is usually contained in shapefiles (there is a [Wikipedia page](https://en.wikipedia.org/wiki/Shapefile) about shapefiles if you're interested in learning more about the format). To find the shapefiles, I simply googled "shapefiles baltimore csa" and ended up [here](http://bniajfi.org/mapping-resources/). We want the most recent Community Statistical Areas (CSAs) shapefiles, which as of now is 2010. 
 
 One way of downloading the shapefiles is to simply click the link, unzip the compressed shapefiles, and then move the relevent files into your working directory. However, if you want your work to be fully reproducible, I think it's useful to get used to downloading files from the web with R. This can be done with the following code block. I found the readOGR function by googling how to read shape files into R.
 
@@ -67,7 +69,7 @@ Second, it looks like there is one row for each CSA. However, note that there ar
 csa@data$Community
 ```
 
-If you look carefully, the 51st row is actually the Baltimore jail, so we'll just remove this from our data.
+If you look carefully, the 51st row is actually the Baltimore jail, so we'll just remove this from our data. 
 
 ```r
 csa <- csa[-51,]
@@ -90,7 +92,7 @@ csa <- spTransform(csa,  llprj)
 csa[4,]@polygons
 ```
 
-Now let's get life expectancy data. [OpenBaltimore](https://data.baltimorecity.gov) has lots of publicily available data. The data for life expectancy is [here](https://data.baltimorecity.gov/Neighborhoods/Children-and-Family-Health-Well-Being-2010-2014-/rtbq-mnni).
+Now let's get life expectancy data. [OpenBaltimore](https://data.baltimorecity.gov) has lots of publicily available data. The data for life expectancy is [here](https://data.baltimorecity.gov/Neighborhoods/Children-and-Family-Health-Well-Being-2010-2014-/rtbq-mnni). 
 
 But how are we going to download this to R? Like before, one option is to click export, download as a CSV, then read the data into R. But there is another option, which is to use an API. APIs are a way for programs like R to grab data from the internet without having a human do any pointing and clicking (at least this is my understanding of APIs--read more about APIs at the [Wikipedia page](https://en.wikipedia.org/wiki/Application_programming_interface)). Note when you click export, there is a tab named 'SODA API'. Clicking on this tab, we then get the link to use for the API under the header 'API Endpoint'. We will then use the R package jsonlite to download the data direcly into R.
 
@@ -135,12 +137,13 @@ ggmap(myggmap) + xlab("Longitude") + ylab("Latitude")
 
 ![]({{site_url}}/img/blog_images/visualizing-life-expectancy-in-baltimore-with-ggmap_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
-Cool! Now we want to overlay the CSA boundaries. I'm going to use some code to get the SpatialPolgyonsDataFrame Polygons to a data frame that can be used in plotting that I found in the [tidyverse GitHub repo](https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles)
+Cool! Now we want to overlay the CSA boundaries. I'm going to use some code to get the SpatialPolgyonsDataFrame Polygons to a data frame that can be used in plotting that I found in the [tidyverse GitHub repo](https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles). Some people have been having problems with this section, hopefully [this StackExchange post](http://stackoverflow.com/questions/30790036/error-istruegpclibpermitstatus-is-not-true) can solve those problems.
 
 
 ```r
 library(maptools)
 library(plyr)
+library(rgeos)
 csa@data$id <- csa@data$Community
 csa.points <- fortify(csa, region="id")
 csa.df <- join(csa.points, csa@data, by="id")
@@ -151,7 +154,7 @@ Now we can use the geom_path function from ggplot2 to plot the boundaries of the
 
 ```r
 library(ggplot2)
-ggmap(myggmap)+
+ggmap(myggmap)+ 
   xlab("Longitude") + ylab("Latitude")+
   geom_path(data=csa.df, aes(x=long, y=lat, group=group), color="black")
 ```
@@ -162,7 +165,7 @@ Finally, we use the geom_polygon function from ggplot2 to fill each CSA by life 
 
 
 ```r
-ggmap(myggmap)+
+ggmap(myggmap)+ 
   xlab("Longitude") + ylab("Latitude")+
   geom_path(data=csa.df, aes(x=long, y=lat, group=group), color="black")+
   geom_polygon(data=csa.df, aes(x=long, y=lat, group=group, fill=life_expectancy), alpha=.75) +
