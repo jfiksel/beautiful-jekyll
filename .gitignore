@@ -8,3 +8,12 @@ _site
 Thumbs.db
 ehthumbs.db
 *.Rhistory
+
+# drafts
+_drafts/CSA_NSA_Tracts.dbf
+_drafts/CSA_NSA_Tracts.prj
+_drafts/CSA_NSA_Tracts.sbn
+_drafts/CSA_NSA_Tracts.sbx
+_drafts/CSA_NSA_Tracts.shp
+_drafts/CSA_NSA_Tracts.shx
+_drafts/shapes.zip
