@@ -1,0 +1,7 @@
+base
+data.table
+coda
+rjags
+R2jags
+matrixStats
+loo
