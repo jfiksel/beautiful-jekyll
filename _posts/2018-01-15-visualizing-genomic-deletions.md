@@ -3,11 +3,6 @@ layout: post
 title: Visualizing genomic deletions in R
 tags: [R, Bioconductor, Bioinformatics]
 ---
----
-layout: post
-title: Visualizing genomic deletions in R
-tags: [R, Bioconductor, Bioinformatics]
----
 
 Recently I've been studying about identifying structural variants using short NGS reads. I don't want to go into detail about structural variants (for more information you can read the [Wikipedia page](https://en.wikipedia.org/wiki/Structural_variation)), but I want to briefly show how you can visualize genomic deletions in R with short reads.
 
@@ -28,7 +23,7 @@ cd bam-files
 wget "http://content.cruk.cam.ac.uk/bioinformatics/CourseData/IntroToIGV/HCC1143.normal.21.19M-20M.bam"
 ```
 
-Now we will move to R. First we will download the necessary packages from [Bioconductor](https://bioconductor.org/). 
+Now we will move to R. First we will download the necessary packages from [Bioconductor](https://bioconductor.org/).
 
 
 ```r
@@ -52,7 +47,7 @@ indexBam(bamfile)
 ```
 
 ```
-##       bam-files/HCC1143.normal.21.19M-20M.bam 
+##       bam-files/HCC1143.normal.21.19M-20M.bam
 ## "bam-files/HCC1143.normal.21.19M-20M.bam.bai"
 ```
 
@@ -60,7 +55,7 @@ indexBam(bamfile)
 autoplot(bamfile, which = region.interest, geom = "gapped.pair")
 ```
 
-![]({{site_url}}/img/blog_images/{{site_urlvisualizing-genomic-deletions_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![]({{site_url}}/img/blog_images/visualizing-genomic-deletions_files/figure-html/unnamed-chunk-3-1.png)
 
 We can see that between 19327000 and 19329000 basepairs there are no reads, and only long lines connecting read pairs. Because these long lines represent the inserts between read pairs, and they're over 2000 bp long (significantly larger than the insert size between read pairs outside of this region), we see a clear deletion!
 
