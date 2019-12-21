@@ -25,9 +25,9 @@ description: Site & Blog
 timezone: "America/New_York"
 markdown: kramdown
 highlighter: rouge
-permalink: /blog/:title/
+permalink: "/blog/:title/"
 paginate: 10
-paginate_path: "/page:num/"
+paginate_path: "/blog/page:num/"
 # List of links in the navigation bar
 navbar-links:
   Blog: ""
