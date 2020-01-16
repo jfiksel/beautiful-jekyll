@@ -35,10 +35,18 @@ Abhirup {Datta}, \textbf{Jacob} \textbf{Fiksel}, Agbessi {Amouzou}, and Scott
 \newblock {Regularized Bayesian transfer learning for population level
   etiological distributions}.
 \newblock {\em arXiv e-prints}, page arXiv:1810.10572, Oct 2018.
+\newblock Accepted in \em{Biostatistics}.
 
 \bibitem{GBQL}
 \textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, Agbessi {Amouzou}, and Scott
   {Zeger}.
-\newblock Generalized bayesian quantification learning for dataset shift.
+\newblock {Generalized Bayesian Quantification Learning}.
+\newblock {\em arXiv e-prints}, page arXiv:2001.05360, Jan 2020.
+\newblock Submitted to \em{JASA Theory and Methods}.
+
+\bibitem{compreg}
+\textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, and Scott {Zeger}.
+\newblock {A Transformation-free Linear Regression for Compositional Outcomes
+  and Predictors}.
 
 \end{thebibliography}
