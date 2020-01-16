@@ -7,16 +7,16 @@ Warning--empty journal in compreg
 Warning--empty year in compreg
 You've used 7 entries,
             1791 wiz_defined-function locations,
-            490 strings with 5470 characters,
-and the built_in function-call counts, 2430 in all, are:
-= -- 216
+            489 strings with 5429 characters,
+and the built_in function-call counts, 2421 in all, are:
+= -- 214
 > -- 149
 < -- 4
 + -- 52
 - -- 45
 * -- 144
-:= -- 357
-add.period$ -- 22
+:= -- 355
+add.period$ -- 21
 call.type$ -- 7
 change.case$ -- 7
 chr.to.int$ -- 0
@@ -24,13 +24,13 @@ cite$ -- 9
 duplicate$ -- 135
 empty$ -- 163
 format.name$ -- 45
-if$ -- 565
+if$ -- 563
 int.to.chr$ -- 0
 int.to.str$ -- 7
 missing$ -- 7
-newline$ -- 39
+newline$ -- 38
 num.names$ -- 7
-pop$ -- 23
+pop$ -- 24
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
@@ -45,5 +45,5 @@ type$ -- 0
 warning$ -- 2
 while$ -- 15
 width$ -- 8
-write$ -- 78
+write$ -- 76
 (There were 2 warnings)

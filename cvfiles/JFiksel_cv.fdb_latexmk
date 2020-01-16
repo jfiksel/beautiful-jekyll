@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex JFiksel_cv"] 1579183720 "JFiksel_cv.aux" "JFiksel_cv.bbl" "JFiksel_cv" 1579183721
+["bibtex JFiksel_cv"] 1579184719 "JFiksel_cv.aux" "JFiksel_cv.bbl" "JFiksel_cv" 1579184720
   "/usr/local/texlive/2016/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "JFiksel_cv.aux" 1579183721 2053 e23adfce35c0836d63bdf915434d9900 ""
+  "JFiksel_cv.aux" 1579184720 2053 e23adfce35c0836d63bdf915434d9900 ""
   "JFiksel_cv.bcf" 0 -1 0 ""
-  "cvrefs.bib" 1579183719 3316 dc696e81119e7cbbdd68c851efa2853a ""
+  "cvrefs.bib" 1579184707 3258 c2da51fc348ad6462861d6018b35861a ""
   (generated)
-  "JFiksel_cv.blg"
   "JFiksel_cv.bbl"
+  "JFiksel_cv.blg"
 ["latex"] 1579183161 "JFiksel_cv.tex" "JFiksel_cv.dvi" "JFiksel_cv" 1579183161
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -58,11 +58,11 @@
   "JFiksel_cv.out" 1579183161 637 211474934cd491975b385e58e832d3ed ""
   "JFiksel_cv.tex" 1576958682 18395 5d495097ff6ce7ddf553b4acb56494ec ""
   (generated)
-  "JFiksel_cv.dvi"
-  "JFiksel_cv.out"
   "JFiksel_cv.log"
   "JFiksel_cv.aux"
-["pdflatex"] 1579183721 "JFiksel_cv.tex" "JFiksel_cv.pdf" "JFiksel_cv" 1579183721
+  "JFiksel_cv.dvi"
+  "JFiksel_cv.out"
+["pdflatex"] 1579184719 "JFiksel_cv.tex" "JFiksel_cv.pdf" "JFiksel_cv" 1579184720
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -117,12 +117,12 @@
   "/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1486990774 1888048 f2c5faed5981a516f406b2ccc20bff71 ""
   "/usr/local/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt" 1463979169 3873397 413fbfbbedb8e719ddc392043a7add02 ""
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
-  "JFiksel_cv.aux" 1579183721 2053 e23adfce35c0836d63bdf915434d9900 ""
-  "JFiksel_cv.bbl" 1579183721 2209 4f46cab4539d6d260844a7f190b0f6b7 "bibtex JFiksel_cv"
-  "JFiksel_cv.out" 1579183721 637 211474934cd491975b385e58e832d3ed ""
+  "JFiksel_cv.aux" 1579184720 2053 e23adfce35c0836d63bdf915434d9900 ""
+  "JFiksel_cv.bbl" 1579184719 2156 e5c7a360200890d68ff99679f63f80cf "bibtex JFiksel_cv"
+  "JFiksel_cv.out" 1579184720 637 211474934cd491975b385e58e832d3ed ""
   "JFiksel_cv.tex" 1579183579 18424 37017429a102fb3ee957dea4f132aba6 ""
   (generated)
   "JFiksel_cv.out"
   "JFiksel_cv.log"
-  "JFiksel_cv.aux"
   "JFiksel_cv.pdf"
+  "JFiksel_cv.aux"
