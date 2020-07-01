@@ -41,6 +41,8 @@ INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breakcites/breakcites.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breakcites/breakcites.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/geometry/geometry.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/geometry/geometry.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/enumitem/enumitem.sty

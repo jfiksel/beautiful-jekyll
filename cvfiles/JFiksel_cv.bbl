@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{phallen2019early}
 Jillian Phallen, Alessandro Leal, Brian~D Woodward, Patrick~M Forde, Jarushka
@@ -34,14 +34,22 @@ Abhirup {Datta}, \textbf{Jacob} \textbf{Fiksel}, Agbessi {Amouzou}, and Scott
   {Zeger}.
 \newblock {Regularized Bayesian transfer learning for population level
   etiological distributions}.
-\newblock {\em arXiv e-prints}, page arXiv:1810.10572, Oct 2018.
-\newblock Accepted in \em{Biostatistics}.
+\newblock {\em Biostatistics}, 2018.
 
-\bibitem{GBQL}
-\textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, Agbessi {Amouzou}, and Scott
-  {Zeger}.
-\newblock {Generalized Bayesian Quantification Learning}.
-\newblock {\em arXiv e-prints}, page arXiv:2001.05360, Jan 2020.
+\bibitem{leal2020}
+Alessandro Leal, Nicole C.~T. van Grieken, Doreen~N. Palsgrove, Jillian
+  Phallen, Jamie~E. Medina, Carolyn Hruban, Mark A.~M. Broeckaert, Valsamo
+  Anagnostou, Vilmos Adleff, Daniel~C. Bruhm, Jenna~V. Canzoniero,
+  \textbf{Jacob} \textbf{Fiksel}, Marianne Nordsmark, Fabienne A. R.~M.
+  Warmerdam, Henk M.~W. Verheul, Dick~Johan van Spronsen, Laurens~V. Beerepoot,
+  Maud~M. Geenen, Johanneke E.~A. Portielje, Edwin P.~M. Jansen, Johanna van
+  Sandick, Elma Meershoek-Klein~Kranenbarg, Hanneke W.~M. van Laarhoven,
+  Donald~L. van~der Peet, Cornelis J.~H. van~de Velde, Marcel Verheij, Remond
+  Fijneman, Robert~B. Scharpf, Gerrit~A. Meijer, Annemieke Cats, and Victor~E.
+  Velculescu.
+\newblock White blood cell and cell-free dna analyses for detection of residual
+  disease in gastric cancer.
+\newblock {\em Nature Communications}, 11(1):525, 2020.
 
 \bibitem{BMETS}
 Sara~R. {Alcorn}, \textbf{Jacob} \textbf{Fiksel}, Jean~L. {Wright}, Christen~R.
@@ -50,12 +58,28 @@ Sara~R. {Alcorn}, \textbf{Jacob} \textbf{Fiksel}, Jean~L. {Wright}, Christen~R.
 \newblock {Developing an Improved Statistical Approach for Survival Estimation
   in Bone Metastases Management: The Bone Metastases Ensemble Trees for
   Survival (BMETS) Model}.
-\newblock Under review at \em{International Journal of Radiation Oncology
-  $\cdot$ Biology $\cdot$ Physics}.
+\newblock {\em International Journal of Radiation Oncology* Biology* Physics},
+  2020.
+
+\bibitem{alcorn2020frequency}
+Sara~R Alcorn, Christen~R Elledge, Jean~L Wright, Thomas~J Smith, Todd~R
+  McNutt, \textbf{Jacob} \textbf{Fiksel}, Scott~L Zeger, and Theodore~L
+  DeWeese.
+\newblock Frequency of complicated symptomatic bone metastasis over a breadth
+  of operational definitions.
+\newblock {\em International Journal of Radiation Oncology* Biology* Physics},
+  106(4):800--810, 2020.
+
+\bibitem{GBQL}
+\textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, Agbessi {Amouzou}, and Scott
+  {Zeger}.
+\newblock {Generalized Bayesian Quantification Learning}.
+\newblock {\em arXiv e-prints}, page arXiv:2001.05360, Jan 2020.
 
 \bibitem{compreg}
 \textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, and Scott {Zeger}.
-\newblock {A Transformation-free Linear Regression for Compositional Outcomes
-  and Predictors}.
+\newblock A transformation-free linear regression for compositional outcomes
+  and predictors.
+\newblock {\em arXiv e-prints}, page arXiv:2004.07881, April 2020.
 
 \end{thebibliography}
