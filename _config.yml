@@ -30,8 +30,8 @@ paginate: 10
 paginate_path: "/blog/page:num/"
 # List of links in the navigation bar
 navbar-links:
-  Blog: ""
-  About Me: "aboutme"
+  Blog: "blog"
+  #About Me: "aboutme"
   CV: "cv"
   Papers: "papers"
   Software: "software"
