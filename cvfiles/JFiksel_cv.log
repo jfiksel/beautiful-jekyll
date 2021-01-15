@@ -1,6 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 JUL 2020 11:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  15 JAN 2021 15:58
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
 **JFiksel_cv.tex
 (./JFiksel_cv.tex
@@ -119,7 +120,6 @@ File: pd1enc.def 2016/05/05 v6.83n Hyperref: PDFDocEncoding definition (HO)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 4322.
 Package hyperref Info: Hyper figures OFF on input line 4446.
 Package hyperref Info: Link nesting OFF on input line 4451.
 Package hyperref Info: Hyper index ON on input line 4454.
@@ -166,7 +166,6 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip46
 )
-(/usr/local/texlive/2016/texmf-dist/tex/latex/breakcites/breakcites.sty)
 \bibhang=\skip47
 \bibsep=\skip48
 
@@ -221,28 +220,28 @@ Package color Info: Driver file: pdftex.def on input line 144.
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 \Gread@gobject=\count105
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 141.
-Package hyperref Info: Option `breaklinks' set `true' on input line 141.
+Package hyperref Info: Option `colorlinks' set `true' on input line 140.
+Package hyperref Info: Option `breaklinks' set `true' on input line 140.
 
 (./JFiksel_cv.aux)
 \openout1 = `JFiksel_cv.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 242.
-LaTeX Font Info:    ... okay on input line 242.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
 \AtBeginShipoutBox=\box27
-Package hyperref Info: Link coloring ON on input line 242.
+Package hyperref Info: Link coloring ON on input line 241.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -252,9 +251,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count106
 )
-LaTeX Info: Redefining \ref on input line 242.
-LaTeX Info: Redefining \pageref on input line 242.
-LaTeX Info: Redefining \nameref on input line 242.
+LaTeX Info: Redefining \ref on input line 241.
+LaTeX Info: Redefining \pageref on input line 241.
+LaTeX Info: Redefining \nameref on input line 241.
 
 (./JFiksel_cv.out) (./JFiksel_cv.out)
 \@outlinefile=\write4
@@ -297,7 +296,7 @@ LaTeX Info: Redefining \nameref on input line 242.
 
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 242.
+(lastpage)             ! on input line 241.
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count107
@@ -314,102 +313,108 @@ Package lastpage Info: Please have a look at the pageslts package at
 )
 \rcollength=\skip60
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 255.
+(Font)              <7> on input line 254.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 255.
+(Font)              <5> on input line 254.
 
-Overfull \hbox (18.0pt too wide) in paragraph at lines 255--262
+Overfull \hbox (18.0pt too wide) in paragraph at lines 254--261
 [][] 
  []
 
-
-Overfull \hbox (2.74994pt too wide) in paragraph at lines 272--273
-[]\OT1/cmr/m/n/10 Applied Bayesian sta-tis-ti-cal mod-el-ing, clin-i-cal trial 
-de-sign, global pub-lic health, on-col-ogy,
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 279.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 275.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 279.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 275.
 
-Overfull \hbox (11.33209pt too wide) in paragraph at lines 310--311
+Overfull \hbox (2.74994pt too wide) in paragraph at lines 313--314
+[]\OT1/cmr/m/n/10 Applied Bayesian sta-tis-ti-cal mod-el-ing, clin-i-cal trial 
+de-sign, global pub-lic health, on-col-ogy,
+ []
+
+
+Overfull \hbox (11.33209pt too wide) in paragraph at lines 321--322
 []\OT1/cmr/m/n/10 As part of the [][]Coun-try-wide Mor-tal-ity Surveil-lance fo
 r Ac-tion (COMSA) in Mozam-bique[][]
  []
 
 
-Overfull \hbox (18.30542pt too wide) in paragraph at lines 310--311
+Overfull \hbox (18.30542pt too wide) in paragraph at lines 321--322
 \OT1/cmr/m/n/10 frame-work to es-ti-ma-tion of the lead-ing causes of neona-tal
  and child death in Mozam-bique. 
  []
 
 
-Overfull \hbox (5.77644pt too wide) in paragraph at lines 312--313
+Overfull \hbox (5.77644pt too wide) in paragraph at lines 323--324
 \OT1/cmr/m/n/10 chro-mo-so-mal ab-nor-mal-i-ties in cir-cu-lat-ing cell-free DN
 A col-lected from can-cer pa-tients.
  []
 
 
-Overfull \hbox (2.91643pt too wide) in paragraph at lines 313--314
+Overfull \hbox (2.91643pt too wide) in paragraph at lines 324--325
 \OT1/cmr/m/n/10 For-est that uses clin-i-cal data from pa-tients with bone meta
 s-tases to make per-son-al-ized
  []
 
 (./JFiksel_cv.bbl)
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 324.
+(Font)              <8> on input line 335.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 324.
+(Font)              <6> on input line 335.
+ [1
 
-Overfull \hbox (2.33322pt too wide) in paragraph at lines 326--327
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (2.33322pt too wide) in paragraph at lines 337--338
 \OT1/cmr/m/n/10 com-pli-cated symp-tomatic bone metas-ta-sis over a breadth of 
 op-er-a-tional def-i-ni-tions.
  []
 
-[1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (7.27716pt too wide) in paragraph at lines 327--328
+Overfull \hbox (7.27716pt too wide) in paragraph at lines 338--339
 \OT1/cmr/m/n/10 Bayesian trans-fer learn-ing for pop-u-la-tion level eti-o-log-
 i-cal dis-tri-bu-tions.  \OT1/cmr/m/it/10 Bio-statis-tics\OT1/cmr/m/n/10 ,
  []
 
 
-Overfull \hbox (1.88766pt too wide) in paragraph at lines 328--329
+Overfull \hbox (1.88766pt too wide) in paragraph at lines 339--340
 \OT1/cmr/m/n/10 anal-y-ses for de-tec-tion of resid-ual dis-ease in gas-tric ca
 n-cer.  \OT1/cmr/m/it/10 Na-ture Com-mu-ni-ca-tions\OT1/cmr/m/n/10 ,
  []
 
 
-Overfull \hbox (8.31648pt too wide) in paragraph at lines 329--330
+Overfull \hbox (8.31648pt too wide) in paragraph at lines 340--341
 \OT1/cmr/m/n/10 Scott L. Zeger.  De-vel-op-ing an Im-proved Sta-tis-ti-cal Ap-p
 roach for Sur-vival Es-ti-ma-tion
  []
 
 
-Overfull \hbox (4.0275pt too wide) in paragraph at lines 329--330
+Overfull \hbox (4.0275pt too wide) in paragraph at lines 340--341
 \OT1/cmr/m/n/10 in Bone Metas-tases Man-age-ment: The Bone Metas-tases En-sem-b
 le Trees for Sur-vival
  []
 
 
-Overfull \hbox (2.33322pt too wide) in paragraph at lines 330--331
+Overfull \hbox (2.33322pt too wide) in paragraph at lines 341--342
 \OT1/cmr/m/n/10 com-pli-cated symp-tomatic bone metas-ta-sis over a breadth of 
 op-er-a-tional def-i-ni-tions.
  []
 
 
-Overfull \hbox (43.12714pt too wide) in paragraph at lines 349--350
+Overfull \hbox (1.96382pt too wide) in paragraph at lines 342--343
+[]\OT1/cmr/m/n/10 Brian T Garibaldi$[]$, \OT1/cmr/bx/n/10 Ja-cob Fiksel$[]$\OT1
+/cmr/m/n/10 , John Muschelli, Matthew L Robin-son, Ma-soud
+ []
+
+
+Overfull \hbox (43.12714pt too wide) in paragraph at lines 361--362
 \OT1/cmr/m/n/10 re-gres-sion for com-po-si-tional out-comes and pre-dic-tors.  
 \OT1/cmr/m/it/10 arXiv e-prints\OT1/cmr/m/n/10 , page arXiv:2004.07881,
  []
 
 [2]
-Overfull \hbox (24.83316pt too wide) in paragraph at lines 409--410
+Overfull \hbox (24.83316pt too wide) in paragraph at lines 421--422
 []\OT1/cmr/m/n/10 Organized bi-weekly stu-dent pre-sen-ta-tions on com-put-ing 
 re-lated top-ics for the Bio-statis-tics
  []
@@ -417,23 +422,23 @@ re-lated top-ics for the Bio-statis-tics
 Excluding 'comment' comment. 
 AED: lastpage setting LastPage
 [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 456.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 456.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
  (./JFiksel_cv.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 456.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 456.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 468.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 468.
 Package rerunfilecheck Info: File `JFiksel_cv.out' has not changed.
-(rerunfilecheck)             Checksum: 6DA3EE60A9F0058C1AF3F106EF33AA9A;668.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 456.
+(rerunfilecheck)             Checksum: CA4A40181C0F43400E9B8A61DF17F598;729.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 468.
  ) 
 Here is how much of TeX's memory you used:
  6151 strings out of 493014
- 91131 string characters out of 6133351
- 285235 words of memory out of 5000000
- 9624 multiletter control sequences out of 15000+600000
+ 90987 string characters out of 6133351
+ 285251 words of memory out of 5000000
+ 9625 multiletter control sequences out of 15000+600000
  7023 words of font info for 25 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,14n,43p,531b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,13n,43p,531b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
@@ -443,10 +448,10 @@ usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
 local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/lo
 cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/loca
 l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on JFiksel_cv.pdf (3 pages, 121189 bytes).
+Output written on JFiksel_cv.pdf (3 pages, 121820 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 137 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 159 PDF objects out of 1000 (max. 8388607)
+ 143 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 113 words of extra memory for PDF output out of 10000 (max. 10000000)
 
