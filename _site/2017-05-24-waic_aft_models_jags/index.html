@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Calculating WAIC from Bayesian AFT models run in JAGS</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+  <meta name="description" content="How the loo and R2jags packages make Bayesian computation fun and easy in R">
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Calculating WAIC from Bayesian AFT models run in JAGS" />
+  
+
+   
+  <meta property="og:description" content="How the loo and R2jags packages make Bayesian computation fun and easy in R">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2017-05-24-waic_aft_models_jags/" />
+  <link rel="canonical" href="http://localhost:4000/2017-05-24-waic_aft_models_jags/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Calculating WAIC from Bayesian AFT models run in JAGS" />
+  
+
+  
+  <meta name="twitter:description" content="How the loo and R2jags packages make Bayesian computation fun and easy in R">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Calculating WAIC from Bayesian AFT models run in JAGS</h1>
+		  
+		    
+			<h2 class="post-subheading">How the loo and R2jags packages make Bayesian computation fun and easy in R</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on May 24, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>Before I begin this post, I’d like to apologize to all of my dedicated readers (thanks mom) who’ve been
+checking in during the past few months and haven’t seen any new posts.</p>
+
+<p>I took a course in Bayesian methods this past semester, and we ended with a lecture on Bayesian accelerated 
+failure time (AFT) models. The details of the AFT model are beyond this post (if you’re interested, please get the <a href="http://blogs.oregonstate.edu/bida/">Bayesian Ideas and Data Analysis</a> book and read chapter 13, which I’m basing this post on), but the basic idea is that we have “failure” times, which are usually times to events such as death
+or recurrence of a disease, and we want to model these failure times using covariates. In addition,
+it is common to have right-censored observations, which means that we know that the event of interest did not
+occur until a certain point, but we do not observe the actual failure time. This often occurs
+when subjects drop out of a study, or when a study ends before we are able to observe failure
+times for all subjects.</p>
+
+<p>The AFT model is a parametric model, meaning that we assume that the failure times
+have a certain distribution. Two common distributions used are the Weibull distribution
+and the log-normal distribution. If we decide to use an AFT model, but are not sure
+which distribution to use, it might be of use to fit both and find a measure to compare
+how well each distribution fits the data. One such measure is the <a href="https://en.wikipedia.org/wiki/Deviance_information_criterion">deviance information criterion</a>, or DIC.
+I will be using JAGS (Just Another Gibbs Sampler) to fit these two models, and JAGS conveniently provides the
+DIC for each model. However, <strong>DIC is not calculated correctly for models with censored observations in JAGS</strong>,
+which I will prove later in this post.</p>
+
+<p>The widely applicable information criteron (WAIC) is 
+viewed as an improvement on DIC (Aki Vehtari, Andrew Gelman, and Jonah Gabry have much more on this <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/loo_stan.pdf">here</a>), and is viewed as
+a fully Bayesian way of comparing models. In order to calculate the WAIC, we assume we have 
+S draws of the parameters in our model from their posterior distribution, and then we calculate
+the log-likelihood for each data point for each of these draws. If we have N observations,
+we will then have an N x S matrix of log-likelihoods, and can use the <a href="https://cran.r-project.org/web/packages/loo/loo.pdf">loo package</a> to calculate the WAIC.</p>
+
+<p>Now let’s get to the modeling with R! As I mentioned before, we will be using 
+JAGS, which can be downloaded <a href="https://sourceforge.net/projects/mcmc-jags/files/">here</a>.
+We will also be using the <code class="highlighter-rouge">data.table</code>, <code class="highlighter-rouge">R2jags</code> and <code class="highlighter-rouge">loo</code> packages in R, so you should install
+those if you haven’t already.</p>
+
+<p>The data we will be analyzing is taken from Example 13.1.1 in the Bayesian Ideas and Data Analysis
+book that I linked to earlier. The subjects for the data are 90 males with cancer of the larynx, and the outcome
+variable of interest is the time from diagnosis to death or censoring. Our covariates
+are stage of the disease at diagnosis (from 1-4), the year of diagnosis, and the age at diagnosis. Let’s
+first read the data in, get rid of unecessary columns, and rename the columns.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span><span class="w">
+</span><span class="n">larynx.url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"http://people.oregonstate.edu/~calverta/BIDA/Chapter13/Larynx-Cancer-Data.txt"</span><span class="w">
+</span><span class="n">larynx.dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fread</span><span class="p">(</span><span class="n">larynx.url</span><span class="p">)</span><span class="w">
+</span><span class="n">larynx.dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">90</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">)]</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">larynx.dat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"stage"</span><span class="p">,</span><span class="w"> </span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"age"</span><span class="p">,</span><span class="w"> </span><span class="s2">"yr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cens_time"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Note that if we have a censored observation, the time column will be <code class="highlighter-rouge">NA</code>,
+and the cens_time column will contain the censoring time. I
+also subsetted the data to the first 90 observations, as the last set of 
+observations in the data were used for different purposes. I will now 
+extract each column as a vector, since this is easier for JAGS to work with.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">stage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="o">$</span><span class="n">stage</span><span class="w">
+</span><span class="n">t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="o">$</span><span class="n">time</span><span class="w">
+</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="o">$</span><span class="n">age</span><span class="w">
+</span><span class="n">yr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="o">$</span><span class="n">yr</span><span class="w">
+</span><span class="n">c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.dat</span><span class="o">$</span><span class="n">cens_time</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>In order to deal with censoring in JAGS, we first will create a variable that
+says whether or not our observation is censored.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">is.censored</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">is.na</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>We will also change our censoring time variable so that for any non-censored observations,
+the variable <code class="highlighter-rouge">c</code> is greater than the observed time.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">c</span><span class="p">[</span><span class="o">!</span><span class="n">is.censored</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="o">!</span><span class="n">is.censored</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The reason we do this is because JAGS
+handles censored observations with the <code class="highlighter-rouge">dinterval()</code> function. For observation i,
+our JAGS code will have a line like this:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dinterval</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">dinterval()</code> function will evaluate to 0 if the first argument is less than
+or equal to the second argument, and will evaluate to 1 otherwise. Because is.censored
+is 0 for our non-censored observations, we want t to be less than c for these subjects. When
+is.censored is 1, because the <code class="highlighter-rouge">t</code> variable is `NA for the censored observations, JAGS
+knows to impute a failure time that is greater than our censoring time for that observation.</p>
+
+<p>Now let’s write the Weibull and log-normal models in JAGS. Note that I will be using non-informative
+priors. I will not explain every step in this model, since there are lots of
+resources out there for learning JAGS. However, I also want to calculate
+the log-likelihoods for each observation at each scan. For non-censored
+observations, this is simply the log-density. For censored observations,
+we must use the log of the survival function, which is the probability of obtaining a survival time
+at least as extreme as our censoring time.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">larynx.weibull.model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">90</span><span class="p">){</span><span class="w">
+        </span><span class="n">sAge</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">age</span><span class="p">[]))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">age</span><span class="p">[])</span><span class="w">
+        </span><span class="n">sYr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">yr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">yr</span><span class="p">[]))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">yr</span><span class="p">[])</span><span class="w">
+        </span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dinterval</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+        </span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dweib</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+        </span><span class="n">lambda</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">shape</span><span class="p">)</span><span class="w">
+        </span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">*</span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+            </span><span class="n">beta</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="o">*</span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">4</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+            </span><span class="n">beta</span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="n">sAge</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">6</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="n">sYr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w">
+        
+        
+        </span><span class="c1">### calculate log-likelihoods
+</span><span class="w">        </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+        </span><span class="n">loglik</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">ifelse</span><span class="p">(</span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                                </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lambda</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">shape</span><span class="p">)),</span><span class="w">
+                                </span><span class="n">shape</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lambda</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="p">(</span><span class="n">shape</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lambda</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">shape</span><span class="p">))))</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    
+    </span><span class="c1">## priors for betas
+</span><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">){</span><span class="w">
+        </span><span class="n">beta</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.001</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    
+    </span><span class="c1">### prior for shape
+</span><span class="w">    </span><span class="n">shape</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dgamma</span><span class="p">(</span><span class="m">.001</span><span class="p">,</span><span class="w"> </span><span class="m">.001</span><span class="p">)</span><span class="w">
+   
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="n">larynx.ln.model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">90</span><span class="p">){</span><span class="w">
+        </span><span class="n">sAge</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">age</span><span class="p">[]))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">age</span><span class="p">[])</span><span class="w">
+        </span><span class="n">sYr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">yr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">yr</span><span class="p">[]))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">yr</span><span class="p">[])</span><span class="w">
+        </span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dinterval</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+        </span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dlnorm</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">tau</span><span class="p">)</span><span class="w">
+        </span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">*</span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+            </span><span class="n">beta</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="o">*</span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">4</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">equals</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+            </span><span class="n">beta</span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="n">sAge</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">6</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="n">sYr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w">
+        
+        </span><span class="c1">### log-likelihood
+</span><span class="w">        </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+        </span><span class="n">loglik</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">ifelse</span><span class="p">(</span><span class="n">is.censored</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                                  </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">plnorm</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">tau</span><span class="p">),</span><span class="w">
+                                  </span><span class="n">dlnorm</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">tau</span><span class="p">)))</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    
+    </span><span class="c1">## priors for betas
+</span><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">){</span><span class="w">
+        </span><span class="n">beta</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dnorm</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.001</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    
+    </span><span class="c1">### prior on precision
+</span><span class="w">    </span><span class="n">tau</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">dgamma</span><span class="p">(</span><span class="m">.001</span><span class="p">,</span><span class="w"> </span><span class="m">.001</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>We can now fit the two models using the <code class="highlighter-rouge">R2jags</code> package. I set my parameter
+vector to only return the draws for the coefficients at each scan, along
+with the log-likelihoods. I will use 10,000 iterations, with a burn-in of 1000,
+and a thinning parameter of 3. Each model should took my computer about 30
+seconds to run.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">R</span><span class="m">2</span><span class="n">jags</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Loading required package: rjags
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Loading required package: coda
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Linked to JAGS 4.2.0
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Loaded modules: basemod,bugs
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## 
+## Attaching package: 'R2jags'
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## The following object is masked from 'package:coda':
+## 
+##     traceplot
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">larynx.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"t"</span><span class="p">,</span><span class="w"> </span><span class="s2">"age"</span><span class="p">,</span><span class="w"> </span><span class="s2">"yr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"c"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stage"</span><span class="p">,</span><span class="w"> </span><span class="s2">"is.censored"</span><span class="p">)</span><span class="w">
+</span><span class="n">larynx.params</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span><span class="w"> </span><span class="s2">"loglik"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">larynx.weibull.fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">jags</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.data</span><span class="p">,</span><span class="w">
+                           </span><span class="n">parameters.to.save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.params</span><span class="p">,</span><span class="w">
+                           </span><span class="n">n.chains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                           </span><span class="n">n.iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w">
+                           </span><span class="n">n.burnin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
+                           </span><span class="n">n.thin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+                           </span><span class="n">model.file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.weibull.model</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## module glm loaded
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 140
+##    Unobserved stochastic nodes: 47
+##    Total graph size: 2742
+## 
+## Initializing model
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">larynx.ln.fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">jags</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.data</span><span class="p">,</span><span class="w">
+                      </span><span class="n">parameters.to.save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.params</span><span class="p">,</span><span class="w">
+                      </span><span class="n">n.chains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                      </span><span class="n">n.iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w">
+                      </span><span class="n">n.burnin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
+                      </span><span class="n">n.thin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+                      </span><span class="n">model.file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">larynx.ln.model</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 140
+##    Unobserved stochastic nodes: 47
+##    Total graph size: 2241
+## 
+## Initializing model
+</code></pre>
+</div>
+
+<p>We can compare the coefficient estimates as follows, using the <code class="highlighter-rouge">matrixStats</code> package.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">matrixStats</span><span class="p">)</span><span class="w">
+</span><span class="n">weibull.paramlist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.weibull.fit</span><span class="o">$</span><span class="n">BUGSoutput</span><span class="o">$</span><span class="n">sims.list</span><span class="w">
+</span><span class="n">ln.paramlist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">larynx.ln.fit</span><span class="o">$</span><span class="n">BUGSoutput</span><span class="o">$</span><span class="n">sims.list</span><span class="w">
+
+</span><span class="c1">### 2.5%, 50% and 97.% for weibull coefficients
+</span><span class="n">colQuantiles</span><span class="p">(</span><span class="n">weibull.paramlist</span><span class="o">$</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">probs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.025</span><span class="p">,</span><span class="w"> </span><span class="m">.5</span><span class="p">,</span><span class="w"> </span><span class="m">.975</span><span class="p">))</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##            2.5%         50%       97.5%
+## [1,]  2.0650218  2.56100867  3.22255810
+## [2,] -1.0698571 -0.15369496  0.81935225
+## [3,] -1.4199184 -0.66998286  0.02309342
+## [4,] -2.6029519 -1.67601729 -0.86959939
+## [5,] -0.5473477 -0.20654198  0.09109159
+## [6,] -0.2388373  0.07391305  0.41158055
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="c1">### 2.5%, 50% and 97.% for log-normal coefficients
+</span><span class="n">colQuantiles</span><span class="p">(</span><span class="n">ln.paramlist</span><span class="o">$</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">probs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.025</span><span class="p">,</span><span class="w"> </span><span class="m">.5</span><span class="p">,</span><span class="w"> </span><span class="m">.975</span><span class="p">))</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##            2.5%        50%      97.5%
+## [1,]  1.7458899  2.3209185  3.0231148
+## [2,] -1.2921459 -0.2410810  0.7543392
+## [3,] -1.8559071 -0.9657416 -0.1884367
+## [4,] -3.1281712 -2.0165055 -1.0512617
+## [5,] -0.5608449 -0.2217514  0.1010787
+## [6,] -0.2200562  0.1181072  0.5046185
+</code></pre>
+</div>
+
+<p>We see that the two models return similar, but not identical, parameter estimates
+for the different posterior quantiles. Before I show how to calculate the WAIC
+for the two models, let me first show that JAGS does not take into account
+censored observations into calculating DIC. The reason for this is due to us having to
+enter censored observations as <code class="highlighter-rouge">NA</code> for our observed failure times (the t variable in the models).</p>
+
+<p>Part of the DIC calculation is done using the deviance, defined as -2 * log-likelihood, at each scan. We can obtain the deviances for the log-normal model, calculated in JAGS, by doing</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">jags.ln.dev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ln.paramlist</span><span class="o">$</span><span class="n">deviance</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>and we can calculate the deviances with only the non-censored observations
+as follows</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">ln.loglik</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ln.paramlist</span><span class="o">$</span><span class="n">loglik</span><span class="w">
+</span><span class="n">ln.observed.loglik</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ln.loglik</span><span class="p">[,</span><span class="w"> </span><span class="o">!</span><span class="n">is.censored</span><span class="p">]</span><span class="w">
+
+</span><span class="n">est.ln.dev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rowSums</span><span class="p">(</span><span class="n">ln.loglik</span><span class="p">)</span><span class="w">
+</span><span class="n">est.observed.ln.dev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rowSums</span><span class="p">(</span><span class="n">ln.observed.loglik</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Comparing the deviances calculated with JAGS to the one using all of our observations,
+we see that they are very different. However, using the deviances calculated from
+the non-censored observations, we see that these are essentially the same as the ones
+calculated in JAGS (minus rounding errors)</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">summary</span><span class="p">(</span><span class="n">est.ln.dev</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">jags.ln.dev</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##        V1       
+##  Min.   :28.62  
+##  1st Qu.:43.99  
+##  Median :49.22  
+##  Mean   :49.66  
+##  3rd Qu.:54.60  
+##  Max.   :76.52
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">summary</span><span class="p">(</span><span class="n">est.observed.ln.dev</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">jags.ln.dev</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##        V1            
+##  Min.   :-1.705e-13  
+##  1st Qu.:-5.684e-14  
+##  Median : 0.000e+00  
+##  Mean   :-1.032e-14  
+##  3rd Qu.: 2.842e-14  
+##  Max.   : 1.421e-13
+</code></pre>
+</div>
+
+<p>Having shown this, I will finally show how to calculate the WAIC for each model with the
+<code class="highlighter-rouge">loo</code> package. I’ve already extracted the log-likelihoods from the log-normal model above,
+so I will first do the same for the Weibull model.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">weibull.loglik</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">weibull.paramlist</span><span class="o">$</span><span class="n">loglik</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Note that these log-likelihoods are matrices:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="nf">dim</span><span class="p">(</span><span class="n">weibull.loglik</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## [1] 3000   90
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="nf">dim</span><span class="p">(</span><span class="n">ln.loglik</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## [1] 3000   90
+</code></pre>
+</div>
+
+<p>Finally, we simply use the <code class="highlighter-rouge">waic()</code> function from the <code class="highlighter-rouge">loo</code> package to calculate the
+WAICs.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">loo</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## This is loo version 1.1.0
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">ln.waic</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">waic</span><span class="p">(</span><span class="n">ln.loglik</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## Warning: 3 (3.3%) p_waic estimates greater than 0.4.
+## We recommend trying loo() instead.
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">weibull.waic</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">waic</span><span class="p">(</span><span class="n">weibull.loglik</span><span class="p">)</span><span class="w">
+
+</span><span class="n">compare</span><span class="p">(</span><span class="n">ln.waic</span><span class="p">,</span><span class="w"> </span><span class="n">weibull.waic</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## elpd_diff        se 
+##      -0.2       1.7
+</code></pre>
+</div>
+
+<p>After looking at the <code class="highlighter-rouge">compare</code> documentation, we see that a negative value
+means that the first model, the log-normal model, has a higher predictive
+accuracy.</p>
+
+<p>Thanks for taking the time to read this, I hope you found it helpful! There are a lot of things that I glossed over in this post in order to not take up all of your time, so please get in contact if you have any
+questions or comments.</p>
+
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            R, RStudio, Jekyll, Github, Markdown
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Calculating+WAIC+from+Bayesian+AFT+models+run+in+JAGS+http://localhost:4000/2017-05-24-waic_aft_models_jags/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-02-26-cropping_images_with_a_shiny_app/" data-toggle="tooltip" data-placement="top" title="Cropping Images with a Shiny App">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/2018-01-08-explaining-confidence-intervals/" data-toggle="tooltip" data-placement="top" title="Explaining frequentist confidence intervals">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

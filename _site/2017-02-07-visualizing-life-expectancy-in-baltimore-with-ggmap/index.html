@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Visualizing life expectancy in Baltimore with ggmap and ggplot2</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+  <meta name="description" content="Learning how to visualize spatial data with R">
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Visualizing life expectancy in Baltimore with ggmap and ggplot2" />
+  
+
+   
+  <meta property="og:description" content="Learning how to visualize spatial data with R">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/" />
+  <link rel="canonical" href="http://localhost:4000/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Visualizing life expectancy in Baltimore with ggmap and ggplot2" />
+  
+
+  
+  <meta name="twitter:description" content="Learning how to visualize spatial data with R">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Visualizing life expectancy in Baltimore with ggmap and ggplot2</h1>
+		  
+		    
+			<h2 class="post-subheading">Learning how to visualize spatial data with R</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 7, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>This post was inspired by a project that I worked on for our department’s <a href="http://jtleek.com/advdatasci16/">Advanced Data Science</a> course, and will get you familiar with using an API to scrape data from the web, reading in shapefiles into R, and converting this geographic information into a data frame that can be visualized with ggplot2. The ultimate goal is to use R to produce a visualization similar to the one below.</p>
+
+<p><img src="/img/blog_images/baltimore_life_expectancy.png" alt="" /></p>
+
+<p>Before we get started, here is the code to download all of the packages we’ll be using, since it is unlikely you will have many of these unless you are familiar with using an API and visualizing geographic data in R.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s1">'jsonlite'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'rgdal'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'ggplot2'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'downloader'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'dplyr'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'sp'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'maptools'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'rgeos'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'plyr'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'curl'</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s1">'devtools'</span><span class="p">)</span><span class="w">
+</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"dkahle/ggmap"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>We will be visualizing life expectancy in the 55 Community Statistical Areas (CSAs) within Baltimore, so we want to grab the geographic coordinates for the borders of these CSAs. Luckily, R can import this type of information, which is usually contained in shapefiles (there is a <a href="https://en.wikipedia.org/wiki/Shapefile">Wikipedia page</a> about shapefiles if you’re interested in learning more about the format). To find the shapefiles, I simply googled “shapefiles baltimore csa” and ended up <a href="http://bniajfi.org/mapping-resources/">here</a>. We want the most recent Community Statistical Areas (CSAs) shapefiles, which as of now is 2010.</p>
+
+<p>One way of downloading the shapefiles is to simply click the link, unzip the compressed shapefiles, and then move the relevent files into your working directory. However, if you want your work to be fully reproducible, I think it’s useful to get used to downloading files from the web with R. This can be done with the following code block. I found the readOGR function by googling how to read shape files into R.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">downloader</span><span class="p">)</span><span class="w">
+</span><span class="n">url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'http://bniajfi.org/wp-content/uploads/2014/04/csa_2010_boundaries.zip'</span><span class="w">
+</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="o">=</span><span class="s1">'shapes.zip'</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="o">=</span><span class="s2">"wb"</span><span class="p">)</span><span class="w">
+</span><span class="n">unzip</span><span class="p">(</span><span class="s1">'shapes.zip'</span><span class="p">,</span><span class="w"> </span><span class="n">exdir</span><span class="o">=</span><span class="n">getwd</span><span class="p">())</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Thanks to this helpful <a href="https://www.r-bloggers.com/things-i-forget-reading-a-shapefile-in-r-with-readogr/">r-bloggers post</a>, I discovered how to use the readOGR function from the rgdal package in order to read shapefiles into a SpatialPolygonsDataFrame.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">rgdal</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w">
+</span><span class="n">csa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readOGR</span><span class="p">(</span><span class="n">getwd</span><span class="p">(),</span><span class="w"> </span><span class="s2">"CSA_NSA_Tracts"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>A SpatialPolygonsDataFrame has “slots” that can be accessed with the @ symbol (not the $ symbol like in a normal data frame). Let’s first check out the data slot.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="nf">dim</span><span class="p">(</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>First, we are only interested in the CSAs (called Community in this data), so let’s only keep that variable.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">Community</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+<p>Second, it looks like there is one row for each CSA. However, note that there are 56 rows, although I mentioned there were only 55 CSAs in Baltimore. Let’s investigate this further.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="o">$</span><span class="n">Community</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>If you look carefully, the 51st row is actually the Baltimore jail, so we’ll just remove this from our data.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">csa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">csa</span><span class="p">[</span><span class="m">-51</span><span class="p">,]</span><span class="w">
+</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">droplevels</span><span class="p">(</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Now let’s look into the what makes this a SpatialPolygonsDataFrame–the polygons. I’m going to use the 4th element, because it’s relatively small.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">csa</span><span class="p">[</span><span class="m">4</span><span class="p">,]</span><span class="o">@</span><span class="n">polygons</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>What’s up with those coordinates? It turns out that you have to do something to turn them into latitude and longitude. <a href="http://gis.stackexchange.com/questions/142156/r-how-to-get-latitudes-and-longitudes-from-a-rasterlayer">This StackExchange post</a> was very helpful with this step.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">llprj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="s2">"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"</span><span class="w">
+</span><span class="n">csa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">spTransform</span><span class="p">(</span><span class="n">csa</span><span class="p">,</span><span class="w">  </span><span class="n">llprj</span><span class="p">)</span><span class="w">
+</span><span class="n">csa</span><span class="p">[</span><span class="m">4</span><span class="p">,]</span><span class="o">@</span><span class="n">polygons</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Now let’s get life expectancy data. <a href="https://data.baltimorecity.gov">OpenBaltimore</a> has lots of publicily available data. The data for life expectancy is <a href="https://data.baltimorecity.gov/Neighborhoods/Children-and-Family-Health-Well-Being-2010-2014-/rtbq-mnni">here</a>.</p>
+
+<p>But how are we going to download this to R? Like before, one option is to click export, download as a CSV, then read the data into R. But there is another option, which is to use an API. APIs are a way for programs like R to grab data from the internet without having a human do any pointing and clicking (at least this is my understanding of APIs–read more about APIs at the <a href="https://en.wikipedia.org/wiki/Application_programming_interface">Wikipedia page</a>). Note when you click export, there is a tab named ‘SODA API’. Clicking on this tab, we then get the link to use for the API under the header ‘API Endpoint’. We will then use the R package jsonlite to download the data direcly into R.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">jsonlite</span><span class="p">)</span><span class="w">
+</span><span class="n">well_being</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="s2">"https://data.baltimorecity.gov/resource/ivtw-hiv6.json"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Whenever I download or read anything into R, I usually run the following three commands to get a sense of what I’m going to be working with and to make sure nothing has gone wrong.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="nf">class</span><span class="p">(</span><span class="n">well_being</span><span class="p">)</span><span class="w">
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">well_being</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">well_being</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>It looks like there are lots of variables, for lots of different years. The two important ones for us are the csa name (csa2010) and life expectancy (let’s use 2014, since it’s the most recent–lifeexp14).</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">well_being</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">well_being</span><span class="p">,</span><span class="w"> </span><span class="n">csa2010</span><span class="p">,</span><span class="w"> </span><span class="n">lifeexp14</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Cool! We’re almost there. Now let’s assign the life expectancies we downloaded earlier to the CSAs.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">key</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">na.omit</span><span class="p">(</span><span class="n">match</span><span class="p">(</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="o">$</span><span class="n">Community</span><span class="p">,</span><span class="w"> </span><span class="n">well_being</span><span class="o">$</span><span class="n">csa</span><span class="p">))</span><span class="w">
+</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="o">$</span><span class="n">life_expectancy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">well_being</span><span class="o">$</span><span class="n">lifeexp14</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Finally, let’s map this stuff! We’re going to use ggmap and ggplot2. First, let’s get a map of Baltimore up using ggmap. This will get us a Google Maps quality map within R. You can play around with the zoom level yourself to see the changes.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggmap</span><span class="p">)</span><span class="w">
+</span><span class="n">myggmap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s2">"Baltimore"</span><span class="p">,</span><span class="w"> </span><span class="n">zoom</span><span class="o">=</span><span class="m">12</span><span class="p">)</span><span class="w">
+</span><span class="n">ggmap</span><span class="p">(</span><span class="n">myggmap</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Longitude"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Latitude"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/img/blog_images/visualizing-life-expectancy-in-baltimore-with-ggmap_files/figure-html/unnamed-chunk-14-1.png" alt="" /><!-- --></p>
+
+<p>Cool! Now we want to overlay the CSA boundaries. I’m going to use some code to get the SpatialPolgyonsDataFrame Polygons to a data frame that can be used in plotting that I found in the <a href="https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles">tidyverse GitHub repo</a>. Some people have been having problems with this section, hopefully <a href="http://stackoverflow.com/questions/30790036/error-istruegpclibpermitstatus-is-not-true">this StackExchange post</a> can solve those problems.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">maptools</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgeos</span><span class="p">)</span><span class="w">
+</span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="o">$</span><span class="n">Community</span><span class="w">
+</span><span class="n">csa.points</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fortify</span><span class="p">(</span><span class="n">csa</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="o">=</span><span class="s2">"id"</span><span class="p">)</span><span class="w">
+</span><span class="n">csa.df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">csa.points</span><span class="p">,</span><span class="w"> </span><span class="n">csa</span><span class="o">@</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"id"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Now we can use the geom_path function from ggplot2 to plot the boundaries of the CSAs.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">ggmap</span><span class="p">(</span><span class="n">myggmap</span><span class="p">)</span><span class="o">+</span><span class="w"> 
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Longitude"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Latitude"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_path</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">csa.df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/img/blog_images/visualizing-life-expectancy-in-baltimore-with-ggmap_files/figure-html/unnamed-chunk-16-1.png" alt="" /><!-- --></p>
+
+<p>Finally, we use the geom_polygon function from ggplot2 to fill each CSA by life expectancy. The scale_fill_gradientn function changes the color scheme to match that of the original image we’re trying to reproduce. You can play around with the alpha argument in geom_polygon to change how transparent the coloring is.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">ggmap</span><span class="p">(</span><span class="n">myggmap</span><span class="p">)</span><span class="o">+</span><span class="w"> 
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Longitude"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Latitude"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_path</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">csa.df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_polygon</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">csa.df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">life_expectancy</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.75</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_gradientn</span><span class="p">(</span><span class="s2">"Life expectancy"</span><span class="p">,</span><span class="w"> </span><span class="n">colors</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="s1">'yellow'</span><span class="p">,</span><span class="w"> </span><span class="s1">'green'</span><span class="p">))</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/img/blog_images/visualizing-life-expectancy-in-baltimore-with-ggmap_files/figure-html/unnamed-chunk-17-1.png" alt="" /><!-- --></p>
+
+<p>And there you go! As always, feel free to use the links at the bottom of my page to get in contact with me if you have any questions.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            r-bloggers, rstats, ggmap, ggplot2, GIS
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Visualizing+life+expectancy+in+Baltimore+with+ggmap+and+ggplot2+http://localhost:4000/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-01-25-hello-world/" data-toggle="tooltip" data-placement="top" title="Blogging with Beautiful Jekyll and R Markdown">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/2017-02-24-tips_for_visiting_graduate_programs/" data-toggle="tooltip" data-placement="top" title="Tips for Visiting Graduate Programs">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

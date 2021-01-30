@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Blogging with Beautiful Jekyll and R Markdown</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+  <meta name="description" content="How I got my website and blog set up!">
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Blogging with Beautiful Jekyll and R Markdown" />
+  
+
+   
+  <meta property="og:description" content="How I got my website and blog set up!">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2017-01-25-hello-world/" />
+  <link rel="canonical" href="http://localhost:4000/2017-01-25-hello-world/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Blogging with Beautiful Jekyll and R Markdown" />
+  
+
+  
+  <meta name="twitter:description" content="How I got my website and blog set up!">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Blogging with Beautiful Jekyll and R Markdown</h1>
+		  
+		    
+			<h2 class="post-subheading">How I got my website and blog set up!</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 25, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>In this first post, I want to let you know how I created this website with GitHub Pages/Jekyll and my setup for making posts with RStudio. I decided to use the <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll template from Dean Attali</a> based off a recommendation from <a href="https://mattkcole.com">Matt Cole</a>. Getting it set up is extremely easy–make sure you have a <a href="https://github.com">GitHub</a> account, click on the template link in the previous sentence, and follow his instructions. Once you have your own repository (i.e. followed the first two steps of Dean’s instructions), I recommend cloning the repistory into your local computer to make changes. The reason for this is that you can use the command line to preview the site locally before pushing to your repo and publishing your work on the web. You can do this by first <a href="http://jekyllrb.com/docs/installation/">downloading Jekyll</a>, then simply enter the following code on the command line</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre>
+</div>
+
+<p>I made an alias for this in my .bash_profile (I called the command <code class="highlighter-rouge">preview</code>) so that I don’t have to remember that command each time I want to preview my site. Once you are happy with your changes, commit them, and push to the Github repo.</p>
+
+<p>Now for blogging. For each post, I plan to initially make <a href="http://rmarkdown.rstudio.com">R Markdown</a>, rather than <a href="http://daringfireball.net/projects/markdown/">Markdown</a>, files for my blog posts for two main reasons. First, I’m used to using <a href="https://www.rstudio.com">RStudio</a> to create .Rmd documents for my analyses. Second, it’s easier for me to integrate R code chunks and plots such as:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="m">9</span><span class="o">:</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="m">9</span><span class="o">:</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">))</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">xaxt</span><span class="o">=</span><span class="s1">'n'</span><span class="p">,</span><span class="w"> </span><span class="n">yaxt</span><span class="o">=</span><span class="s1">'n'</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/img/blog_images/hello-world_files/figure-html/hi-1.png" alt="" /><!-- --></p>
+
+<p>The problem I run into with this is that Github pages currently only allows posts to be in the Markdown format. My current workflow, heavily borrowed from <a href="https://shiring.github.io/blogging/2016/12/04/diy_your_own_blog">Shirin</a>, to (somewhat efficiently) get around this is the following:</p>
+
+<p><strong>1.</strong> Make a _drafts directory in which you can develop all of your blog posts. I also recommend creating a directory called blog_images inside of the img directory–more on this later</p>
+
+<p><strong>2.</strong> Using an editor of your choice, create a .md document that only contains the desired YAML header for your post. For example, the header for this post is</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="o">---</span><span class="w">
+</span><span class="n">layout</span><span class="o">:</span><span class="w"> </span><span class="n">post</span><span class="w">
+</span><span class="n">title</span><span class="o">:</span><span class="w"> </span><span class="n">Blogging</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">Beautiful</span><span class="w"> </span><span class="n">Jekyll</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">Markdown</span><span class="w">
+</span><span class="n">subtitle</span><span class="o">:</span><span class="w"> </span><span class="n">How</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="n">website</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">up</span><span class="o">!</span><span class="w">
+</span><span class="n">tags</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">RStudio</span><span class="p">,</span><span class="w"> </span><span class="n">Jekyll</span><span class="p">,</span><span class="w"> </span><span class="n">Github</span><span class="p">,</span><span class="w"> </span><span class="n">Markdown</span><span class="p">]</span><span class="w">
+</span><span class="o">---</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Save this in your _drafts directory as &lt;name_of_post&gt;-header.md.</p>
+
+<p><strong>3.</strong> In RStudio, create a new R Markdown file and set the default output format to HTML. Replace the full header, which will look something like this:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="o">---</span><span class="w">
+</span><span class="n">title</span><span class="o">:</span><span class="w"> </span><span class="s2">"Hello World"</span><span class="w">
+</span><span class="n">author</span><span class="o">:</span><span class="w"> </span><span class="s2">"Jacob Fiksel"</span><span class="w">
+</span><span class="n">date</span><span class="o">:</span><span class="w"> </span><span class="s2">"1/26/2017"</span><span class="w">
+</span><span class="n">output</span><span class="o">:</span><span class="w"> </span><span class="n">html_document</span><span class="w">
+</span><span class="o">---</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>with</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">output</span><span class="o">:</span><span class="w">
+  </span><span class="n">html_document</span><span class="o">:</span><span class="w">
+    </span><span class="n">keep_md</span><span class="o">:</span><span class="w"> </span><span class="n">true</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This allows you to preview how it looks in html after each time you hit <code class="highlighter-rouge">Knit HTML</code> in RStudio, and R will automatically create the .md file you will use for the Github post. Save this .Rmd file inside of your _drafts directory as &lt;name_of_post&gt;.Rmd.</p>
+
+<p><strong>4.</strong> Write a post!</p>
+
+<p><strong>5.</strong> Once you’re happy with your post, knit the .Rmd document for the final time. To get the post onto our website, we simply have to move and rename some documents. Luckily, I’ve written a shell script that you can copy and use (mine is called make_post.sh). It will ask you which file you want to post. If you saved your .Rmd file as &lt;name_of_post&gt;.Rmd, simply type in &lt;name_of_post&gt;. For example, I saved this file as hello-world.Rmd, so each time I run the script, I type in <code class="highlighter-rouge">hello-world</code> when prompted. The script will ask you if you want to add the header you created earlier to the .md document corresponding to that post. Most likely you will always want to add the header (enter <code class="highlighter-rouge">y</code> when prompted), but if you just made a quick change directly to the .md document after the header was already inserted, enter <code class="highlighter-rouge">n</code> instead. The script copies the .md document  into the _posts directory (renaming it with the date in front), moves all of the files that were created after knitting your R Markdown file (such as your plots) into the blog_images directory, and updates the .md document with the new locations for those files. The updated post will have the same date as the original post. Also, this may not work if you’re on a Windows–sorry ‘bout that!</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">echo </span>Which file <span class="k">do </span>you want to post?
+<span class="nb">read</span> -e -p <span class="s2">"Post:"</span> file
+<span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">file</span><span class="k">}</span><span class="s2">.Rmd"</span>
+<span class="nv">post</span><span class="o">=</span><span class="k">${</span><span class="nv">file</span><span class="p">//.Rmd</span><span class="k">}</span>
+<span class="nv">markdown</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">post</span><span class="k">}</span><span class="s2">.md"</span>
+<span class="nv">header</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">post</span><span class="k">}</span><span class="s2">-header.md"</span>
+<span class="nb">echo </span>Do you want to add a header? Enter y or n
+<span class="nb">read </span>header_y_n
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$header_y_n</span> <span class="o">==</span> <span class="s2">"y"</span> <span class="o">]</span>
+<span class="k">then
+  </span>cp <span class="nv">$header</span> temp_post.md
+  cat <span class="nv">$markdown</span> &gt;&gt; temp_post.md
+  mv temp_post.md <span class="nv">$markdown</span>
+<span class="k">fi
+</span>perl -pi -e <span class="s1">'s/!\[]\(/!\[]\(\{\{site_url\}\}\/img\/blog_images\//g'</span> <span class="nv">$markdown</span>
+<span class="nv">post_files</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">post</span><span class="k">}</span><span class="s2">_files"</span>
+<span class="nv">date</span><span class="o">=</span><span class="sb">`</span>date +%Y-%m-%d<span class="sb">`</span>
+<span class="nv">markdown_for_post</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">date</span><span class="k">}</span><span class="s2">-</span><span class="k">${</span><span class="nv">markdown</span><span class="k">}</span><span class="s2">"</span>
+<span class="nv">wd</span><span class="o">=</span><span class="nv">$PWD</span>
+<span class="nb">cd</span> ../_posts/
+<span class="k">if</span> <span class="o">[</span> -f <span class="k">*${</span><span class="nv">markdown</span><span class="k">}</span> <span class="o">]</span>
+<span class="k">then
+  </span><span class="nv">markdown_for_post</span><span class="o">=</span><span class="k">*${</span><span class="nv">markdown</span><span class="k">}</span>
+<span class="k">fi
+</span><span class="nb">cd</span> <span class="nv">$wd</span>
+<span class="nv">markdown_output</span><span class="o">=</span><span class="s2">"../_posts/</span><span class="k">${</span><span class="nv">markdown_for_post</span><span class="k">}</span><span class="s2">"</span>
+cp <span class="nv">$markdown</span> <span class="nv">$markdown_output</span>
+cp -r <span class="nv">$post_files</span> ../img/blog_images
+
+<span class="k">if </span>diff <span class="nv">$markdown_output</span> <span class="nv">$markdown</span> &gt;/dev/null; <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"Your post was succesfully moved"</span>;
+<span class="k">else
+  </span><span class="nb">echo</span> <span class="s2">"There was an error in moving your post"</span>;
+<span class="k">fi</span>
+
+</code></pre>
+</div>
+
+<p>This script is fully accessible on the Github repository for this website, inside of the _drafts directory.</p>
+
+<p><strong>6.</strong> Once you run the script (if your script is in your _drafts directory, make sure you are also in that directory, and enter <code class="highlighter-rouge">./make_post.sh</code> in the command line) and the .md file is in your _posts directory, preview your site and post by going to the main website directory and using the command I described earlier. The conversion from R Markdown to Markdown is not perfect, so you may have to make some changes in the .md document. I learned the hard way that code blocks and numbered lists do not go well together in Markdown.</p>
+
+<p><strong>7.</strong> Once you are fully happy, push your changes, and admire your post on your fancy new website!</p>
+
+<p>I hope this was helpful! If you would like to see more blog posts about R and RStudio, I highly recommend checking out <a href="https://www.r-bloggers.com">R-bloggers</a>. Please leave any comments or questions that you have, and I look forward to making more posts in the future.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            R, RStudio, Jekyll, Github, Markdown, r-bloggers, rstats
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Blogging+with+Beautiful+Jekyll+and+R+Markdown+http://localhost:4000/2017-01-25-hello-world/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        
+        <li class="next">
+          <a href="/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/" data-toggle="tooltip" data-placement="top" title="Visualizing life expectancy in Baltimore with ggmap and ggplot2">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jacob Fiksel</title>
+    <description>Site &amp; Blog</description>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Visualizing genomic deletions in R</title>
+        <description>
+          
+          Recently I’ve been studying about identifying structural variants using short NGS reads. I don’t want to go into detail about structural variants (for more information you can read the Wikipedia page), but I want to briefly show how you can visualize genomic deletions in R with short reads. In a...
+        </description>
+        <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2018-01-15-visualizing-genomic-deletions/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018-01-15-visualizing-genomic-deletions/</guid>
+      </item>
+    
+      <item>
+        <title>Explaining frequentist confidence intervals</title>
+        <description>
+          
+          For the past two years, I have been a TA for the awesome Public Health Biostatistics course taught by Drs. Margaret Taub and Leah Jager. The course is an introduction to statistics course, aimed at a non-mathematical audience. Frequentist confidence intervals (introduced as just confidence intervals), are the first topic...
+        </description>
+        <pubDate>Mon, 08 Jan 2018 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2018-01-08-explaining-confidence-intervals/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018-01-08-explaining-confidence-intervals/</guid>
+      </item>
+    
+      <item>
+        <title>Calculating WAIC from Bayesian AFT models run in JAGS</title>
+        <description>
+          How the loo and R2jags packages make Bayesian computation fun and easy in R - 
+          Before I begin this post, I’d like to apologize to all of my dedicated readers (thanks mom) who’ve been checking in during the past few months and haven’t seen any new posts. I took a course in Bayesian methods this past semester, and we ended with a lecture on Bayesian...
+        </description>
+        <pubDate>Wed, 24 May 2017 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2017-05-24-waic_aft_models_jags/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-05-24-waic_aft_models_jags/</guid>
+      </item>
+    
+      <item>
+        <title>Cropping Images with a Shiny App</title>
+        <description>
+          Or why they call me Mr. Adobe - 
+          During the second quarter of our Advanced Data Science Course, we developed Shiny apps for other professors in the School of Public Health. This was a great opportunity to connect with other researchers in the school, in addition to learning how to make a cool Shiny app from scratch. The...
+        </description>
+        <pubDate>Sun, 26 Feb 2017 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2017-02-26-cropping_images_with_a_shiny_app/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-02-26-cropping_images_with_a_shiny_app/</guid>
+      </item>
+    
+      <item>
+        <title>Tips for Visiting Graduate Programs</title>
+        <description>
+          Advice from a 2nd year PhD student - 
+          With prospective PhD students coming to visit our department in a week, I thought I would write up some advice on what to look for when visiting a graduate program. Although I only visited biostatistics programs, hopefully some of this advice can be applied to any graduate program visit. There...
+        </description>
+        <pubDate>Fri, 24 Feb 2017 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2017-02-24-tips_for_visiting_graduate_programs/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-02-24-tips_for_visiting_graduate_programs/</guid>
+      </item>
+    
+      <item>
+        <title>Visualizing life expectancy in Baltimore with ggmap and ggplot2</title>
+        <description>
+          Learning how to visualize spatial data with R - 
+          This post was inspired by a project that I worked on for our department’s Advanced Data Science course, and will get you familiar with using an API to scrape data from the web, reading in shapefiles into R, and converting this geographic information into a data frame that can be...
+        </description>
+        <pubDate>Tue, 07 Feb 2017 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/</guid>
+      </item>
+    
+      <item>
+        <title>Blogging with Beautiful Jekyll and R Markdown</title>
+        <description>
+          How I got my website and blog set up! - 
+          In this first post, I want to let you know how I created this website with GitHub Pages/Jekyll and my setup for making posts with RStudio. I decided to use the Beautiful Jekyll template from Dean Attali based off a recommendation from Matt Cole. Getting it set up is extremely...
+        </description>
+        <pubDate>Wed, 25 Jan 2017 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2017-01-25-hello-world/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-01-25-hello-world/</guid>
+      </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Explaining frequentist confidence intervals</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Explaining frequentist confidence intervals" />
+  
+
+   
+  <meta property="og:description" content="For the past two years, I have been a TA for the awesome Public Health Biostatistics course taught by Drs. Margaret Taub and Leah Jager. The course is an introduction to statistics course, aimed at a non-mathematical audience. Frequentist confidence intervals (introduced as just confidence intervals), are the first topic...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2018-01-08-explaining-confidence-intervals/" />
+  <link rel="canonical" href="http://localhost:4000/2018-01-08-explaining-confidence-intervals/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Explaining frequentist confidence intervals" />
+  
+
+  
+  <meta name="twitter:description" content="For the past two years, I have been a TA for the awesome Public Health Biostatistics course taught by Drs. Margaret Taub and Leah Jager. The course is an introduction to statistics course, aimed at a non-mathematical audience. Frequentist confidence intervals (introduced as just confidence intervals), are the first topic...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Explaining frequentist confidence intervals</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 8, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>For the past two years, I have been a TA for the awesome Public Health Biostatistics course taught by Drs. Margaret Taub and Leah Jager. The course is an introduction to statistics course, aimed at a non-mathematical audience. Frequentist confidence intervals (introduced as just confidence intervals), are the first topic that students struggle with in the course, and I don’t blame them. For those that need a refresher in the definition of a (95%) frequentist confidence interval, here you go:</p>
+
+<p>“If we have a 95% confidence interval for a parameter, this means that if we were to repeat the experiment an infinite amount of times and calculate a confidence interval for each experiment, 95% of those confidence intervals would contain the true parameter value”</p>
+
+<p>That’s quite a mouthful, and creates a huge issue when trying to explain this to students–almost all students want to interpret a 95% confidence interval as “there is a 95% probability that our confidence interval contains the true parameter value”. However, that’s the definition of a Bayesian confidence interval, not the frequentist confidence interval. Maybe the only bright side of not teaching Bayesian statistics in an introductory course is that they at least won’t get confused with two confidence interval definitions.</p>
+
+<p>To show students why this is not true, I took out a coin and asked students what the probability of me flipping it and getting a heads is–everyone responded with the correct answer, 50%. I then flipped it, held it in my hands so that no one could see what side was facing up, and slightly reworded my question. I asked “what is the probability that the coin I just flipped is heads?” Again, all the students responded with 50%. However, this is not true, if we’re using the frequentist definition of probability, and not the Bayesian subjective definition of probability. If I have already flipped the coin, the side facing up either is or is not heads–there’s no more randomness! Just because an event is unknown (whether the side facing up is heads) does not mean that it’s random.</p>
+
+<p>To connect this with confidence intervals, I make the analogy that our experiment and corresponding confidence interval is our coin flip. Rather than being interested in whether the coin is heads, the event we’re now interested in is now whether our confidence interval contains the true parameter value. Unfortunately, whether the confidence interval contains the true mean is unknown–either it does, or it doesn’t. This is really unsatisfactory to students (and to me, which is one of the reasons I’ve been drawn to Bayesian statistics). However, the nice thing about a 95% confidence interval is that we’ve stacked the deck in our favor–in the coin toss, there was only a 50% chance that we were going to get a heads. Now, before the experiment, there is a 95% chance our confidence interval will contain the true parameter value.</p>
+
+<p>I’m not sure if this is the most clear way to convey what we mean when we define a frequentist confidence interval, although I think it does an effective job of differentiating between an event being random versus unknown. I also think this post highlights how truly complicated the idea of a frequentist interval is, and how inadequate saying “We are 95% confident that the mean is between a and b” is to convey the idea of a confidence interval. I would guess that many non-statisticians that deal with confidence intervals in their job have either forgotten the right confidence interval definition or never learned the right definition. In my opinion, saying “We are 95% confident…” to a non-statistician collaborator leads them towards thinking that there is a 95% probability our interval contains the true parameter value.</p>
+
+<p>How can confidence intervals be taught better? I think doing simulations is helpful for students to see what we mean by repeating an experiment an infinite amount of times. Daniel Kunin and co <a href="https://students.brown.edu/seeing-theory/index.html#firstPage">have an awesome visualization at their Seeing Theory website</a> that I would highly recommend checking out. Finally, I think we need to be considering teaching Bayesian statistics more frequently (pun intended) in introductory statistics courses.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            Statistics, Education
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Explaining+frequentist+confidence+intervals+http://localhost:4000/2018-01-08-explaining-confidence-intervals/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-05-24-waic_aft_models_jags/" data-toggle="tooltip" data-placement="top" title="Calculating WAIC from Bayesian AFT models run in JAGS">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/2018-01-15-visualizing-genomic-deletions/" data-toggle="tooltip" data-placement="top" title="Visualizing genomic deletions in R">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

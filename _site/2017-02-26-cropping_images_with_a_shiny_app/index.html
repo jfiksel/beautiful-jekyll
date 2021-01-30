@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Cropping Images with a Shiny App</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+  <meta name="description" content="Or why they call me Mr. Adobe">
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Cropping Images with a Shiny App" />
+  
+
+   
+  <meta property="og:description" content="Or why they call me Mr. Adobe">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2017-02-26-cropping_images_with_a_shiny_app/" />
+  <link rel="canonical" href="http://localhost:4000/2017-02-26-cropping_images_with_a_shiny_app/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Cropping Images with a Shiny App" />
+  
+
+  
+  <meta name="twitter:description" content="Or why they call me Mr. Adobe">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Cropping Images with a Shiny App</h1>
+		  
+		    
+			<h2 class="post-subheading">Or why they call me Mr. Adobe</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 26, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>During the second quarter of <a href="http://jtleek.com/advdatasci16/">our Advanced Data Science Course</a>,
+we developed <a href="https://shiny.rstudio.com">Shiny apps</a> for other professors in the
+School of Public Health. This was a great opportunity to connect with other
+researchers in the school, in addition to learning how to make a cool Shiny
+app from scratch.</p>
+
+<p>The goal of my app was to improve the measurements of mouse paw lesions, based on
+images taken by a lab. My approach was to allow the lab users to remove the background
+of the image, and then trace out where the tumors were located on the paw. The app would then
+calculate the percentage of the paw taken up by a lesion, which would hopefully be
+more accurate than doing this by subjective judgement.</p>
+
+<p>The purpose of this tutorial is to go over the code that I used to do the background cropping.
+To do this, I modified the code of my original app to build a less involved version so that the
+code is more understandable. If you want to see the more detailed app that I built for the
+class, check out the GitHub repo <a href="https://github.com/jfiksel/lesion_measurements">located here</a>.
+For some motivation, here is an example of what you will be able to do after
+building this app.</p>
+
+<p><img src="/img/blog_images/photoshop_example.gif" alt="" /></p>
+
+<p>I’m not going to go into detail about every step that goes into making a Shiny app,
+but if you would like to learn more, there are great examples and tutorials on the
+Shiny app website that I linked to earlier.</p>
+
+<p>To start out with, here’s the code to install all the necessary libraries. I would
+only run the lines for the libraries you definitely don’t have.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s2">"DT"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"imager"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"maptools"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"plotKML"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"raster"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"shiny"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"shinyjs"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"sp"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"spatstat"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Make a new folder for this project, and inside of this folder make two new files–<code class="highlighter-rouge">ui.R</code> and <code class="highlighter-rouge">server.R</code>. Here is
+the code that I put in my <code class="highlighter-rouge">ui.R</code> file:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">shinyjs</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">DT</span><span class="p">)</span><span class="w">
+</span><span class="n">fluidPage</span><span class="p">(</span><span class="w">
+  </span><span class="n">titlePanel</span><span class="p">(</span><span class="s2">"Crop Image"</span><span class="p">),</span><span class="w">
+  </span><span class="n">useShinyjs</span><span class="p">(),</span><span class="w">
+  </span><span class="n">sidebarLayout</span><span class="p">(</span><span class="w">
+    </span><span class="n">sidebarPanel</span><span class="p">(</span><span class="w">
+      </span><span class="n">fileInput</span><span class="p">(</span><span class="s2">"file1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Choose Image"</span><span class="p">,</span><span class="w">
+                </span><span class="n">accept</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">".png"</span><span class="p">,</span><span class="w">
+                         </span><span class="s2">".jpg"</span><span class="p">)),</span><span class="w">
+      </span><span class="n">textInput</span><span class="p">(</span><span class="s2">"imgName"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Image Name"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">),</span><span class="w">
+      </span><span class="n">actionButton</span><span class="p">(</span><span class="s2">"selectForeground"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Begin Crop"</span><span class="p">),</span><span class="w">
+      </span><span class="n">p</span><span class="p">(</span><span class="s2">"Click the button to begin cropping the image"</span><span class="p">),</span><span class="w">
+      </span><span class="n">actionButton</span><span class="p">(</span><span class="s2">"pauseCropping"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Pause Cropping"</span><span class="p">),</span><span class="w">
+      </span><span class="n">p</span><span class="p">(</span><span class="s2">"Click the button to pause background cropping"</span><span class="p">),</span><span class="w">
+      </span><span class="n">actionButton</span><span class="p">(</span><span class="s2">"resetCropping"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Reset Cropping"</span><span class="p">),</span><span class="w">
+      </span><span class="n">p</span><span class="p">(</span><span class="s2">"Click the button to reset background cropping"</span><span class="p">),</span><span class="w">
+      </span><span class="n">actionButton</span><span class="p">(</span><span class="s2">"cropBackground"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Crop Image"</span><span class="p">),</span><span class="w">
+      </span><span class="n">p</span><span class="p">(</span><span class="s2">"Click after you have cropped out the background"</span><span class="p">),</span><span class="w">
+      </span><span class="n">actionButton</span><span class="p">(</span><span class="s2">"downloadImage"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Download Image"</span><span class="p">),</span><span class="w">
+      </span><span class="n">p</span><span class="p">(</span><span class="s2">"Click to download the cropped image"</span><span class="p">)</span><span class="w">
+    </span><span class="p">),</span><span class="w">
+    </span><span class="n">mainPanel</span><span class="p">(</span><span class="w">
+      </span><span class="n">plotOutput</span><span class="p">(</span><span class="s2">"plot1"</span><span class="p">,</span><span class="w"> </span><span class="n">click</span><span class="o">=</span><span class="s2">"plot1_click"</span><span class="p">,</span><span class="w">
+                 </span><span class="n">dblclick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot1_dblclick"</span><span class="p">,</span><span class="w">
+                 </span><span class="n">brush</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">brushOpts</span><span class="p">(</span><span class="w">
+                   </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot1_brush"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">resetOnNew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="w">
+                 </span><span class="p">))</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The fileInput button allows the user to use a <code class="highlighter-rouge">.jpg</code> or <code class="highlighter-rouge">.png</code> image for the cropping.
+Each of the action buttons will be referenced inside of the <code class="highlighter-rouge">server.R</code> file, and
+the results of pressing each of these buttons should be pretty clear from
+the description. Finally, the last code chunk plots the image, in addition
+to providing the ability to double click and zoom in on a region of the image.</p>
+
+<p>Now let’s switch over to the <code class="highlighter-rouge">server.R</code> file, which contains the meat (or Tempeh, if
+you’re a vegatarian) of the app. I’m not going to go over a lot of the code here, but the full file is
+available at <a href="https://github.com/jfiksel/photoshop">this app’s GitHub repo</a>, along
+with the <code class="highlighter-rouge">ui.R</code> file and a great test picture. I will be referencing names of
+variables and functions, that will hopefully be easy to find and follow along
+with if you have the code in front of you.</p>
+
+<p>I use the <code class="highlighter-rouge">imager</code> package to read in the image. The data structure of this image
+is a 3D matrix–each layer corresponds to either the red, blue, or green scale of the
+image, and the rows and columns are the pixels.</p>
+
+<p>The way that I crop the image is by keeping track of the user clicks. When the
+user clicks the “Begin Crop” button (internally named “selectForeground”), a
+<a href="https://shiny.rstudio.com/reference/shiny/latest/reactiveValues.html">reactive value</a>
+called “cropImg” is set to true. The app then starts keeping track of the clicks
+with two vectors–one for the x-coordinate, and one for the y-coordinate.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">observeEvent</span><span class="p">(</span><span class="n">input</span><span class="o">$</span><span class="n">plot1_click</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Keep track of number of clicks for line drawing
+</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">$</span><span class="n">crop.img</span><span class="p">){</span><span class="w">
+    </span><span class="n">v</span><span class="o">$</span><span class="n">imgclick.x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">v</span><span class="o">$</span><span class="n">imgclick.x</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">input</span><span class="o">$</span><span class="n">plot1_click</span><span class="o">$</span><span class="n">x</span><span class="p">))</span><span class="w">
+    </span><span class="n">v</span><span class="o">$</span><span class="n">imgclick.y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">v</span><span class="o">$</span><span class="n">imgclick.y</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">input</span><span class="o">$</span><span class="n">plot1_click</span><span class="o">$</span><span class="n">y</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">app.plot</code> function recognizes when the user has begun clicking, and connects the
+clicks with a red line so that the user can see the area that they are cropping.</p>
+
+<p>The reason that I have a “Pause Cropping” button is to allow the user to zoom in
+on a region. If you have paused cropping, you can click and drag the mouse to create a square.
+If you double click inside of this square you will zoom in, so that you can crop
+the image more accurately. You can begin cropping while zoomed in, and then pause again.
+Double clicking will get you back to the original view.</p>
+
+<p>When the user presses “Crop Image”, the <code class="highlighter-rouge">select.points</code> function does the heavy lifting.
+The heart of the function is this line:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">poly</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">owin</span><span class="p">(</span><span class="n">poly</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">check</span><span class="o">=</span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The x and y refer to the x and y-coordinates of the clicks. This line
+takes our click values, and connects them to make a polygon which contains
+the coordinates of the image that we want to keep. The rest of the function makes a mask,
+which is a matrix of dimension equal to the dimension of our image. If an entry
+in the mask is set to 1, then we keep this pixel as is in the image. If an entry is the
+mask is set to 0, we change that pixel’s color to white, with the <code class="highlighter-rouge">removePoints</code>
+function in the <code class="highlighter-rouge">server.R</code> file.</p>
+
+<p>If you’re not happy with the image, you can hit “Reset Cropping”. Internally,
+this just resets all of the reactive values to their original state, and resets the
+image to be the original image that the user wanted to crop.</p>
+
+<p>Looking a bit more closely at the code, under each <code class="highlighter-rouge">observeEvent()</code> in the <code class="highlighter-rouge">server.R</code> file, I have
+lines that enable and disable certain action buttons. This is from the <code class="highlighter-rouge">shinyjs</code> package,
+and this allows the user to see which button they are currently clicked on.</p>
+
+<p>Finally, clicking on the <code class="highlighter-rouge">Download Image</code> function takes advantage of the <code class="highlighter-rouge">imager</code> package’s
+function <code class="highlighter-rouge">save.image</code>, and saves the cropped image to your current working directory.</p>
+
+<p>Hopefully this is a starting point for more cool image editing Shiny apps. Please
+let me know if you have any improvements or add-ons that you made! As always,
+feel free to get in contact with me using the links at the bottom of the page.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            R, Shiny, r-bloggers, RStudio
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Cropping+Images+with+a+Shiny+App+http://localhost:4000/2017-02-26-cropping_images_with_a_shiny_app/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-02-24-tips_for_visiting_graduate_programs/" data-toggle="tooltip" data-placement="top" title="Tips for Visiting Graduate Programs">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/2017-05-24-waic_aft_models_jags/" data-toggle="tooltip" data-placement="top" title="Calculating WAIC from Bayesian AFT models run in JAGS">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

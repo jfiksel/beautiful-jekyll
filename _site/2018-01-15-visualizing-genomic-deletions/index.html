@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Visualizing genomic deletions in R</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Visualizing genomic deletions in R" />
+  
+
+   
+  <meta property="og:description" content="Recently I’ve been studying about identifying structural variants using short NGS reads. I don’t want to go into detail about structural variants (for more information you can read the Wikipedia page), but I want to briefly show how you can visualize genomic deletions in R with short reads. In a...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2018-01-15-visualizing-genomic-deletions/" />
+  <link rel="canonical" href="http://localhost:4000/2018-01-15-visualizing-genomic-deletions/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Visualizing genomic deletions in R" />
+  
+
+  
+  <meta name="twitter:description" content="Recently I’ve been studying about identifying structural variants using short NGS reads. I don’t want to go into detail about structural variants (for more information you can read the Wikipedia page), but I want to briefly show how you can visualize genomic deletions in R with short reads. In a...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Visualizing genomic deletions in R</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 15, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      <article role="main" class="blog-post">
+        <p>Recently I’ve been studying about identifying structural variants using short NGS reads. I don’t want to go into detail about structural variants (for more information you can read the <a href="https://en.wikipedia.org/wiki/Structural_variation">Wikipedia page</a>), but I want to briefly show how you can visualize genomic deletions in R with short reads.</p>
+
+<p>In a deletion event, a portion of the DNA that is included in the reference is deleted from the genome of interest. Short reads can help us find deletion regions, due to our knowledge of what the “insert size” of the DNA fragments should be. To understand what insert size is, we first have to get a sense of how these short reads are generated. The DNA sequence of interest first starts off as a collection of very long strands. Wet lab members then using shearing techniques to break the DNA into short fragments, usually around 700 basepairs (bp) or so in size, depending on the shearing technique. Finally, a common sequencing technique called read pair sequencing is used. The sequencer collects the DNA sequence of 150 bp reads from both sides of the fragment. These two reads put together are called a fragment, and we know that the size (in basepairs) between the end of the first fragment and the beginning of the second fragment should be around 400 bp. This might be more easily visualized in the following manner:</p>
+
+<p>R1S—-R1E———————R2S—-R2E</p>
+
+<p>Using R1S and R1E (and R2S and R2E) denote the start and end of the first (and second) read, we know the distance between R1S and R1E (and R2S and R2E) is 150 bp, and the distance between R1S and R2E is the fragment size, which is 700 bp. Thus, the distance between R1E and R2S, the insertion size, must be 400 bp.</p>
+
+<p>Knowing that pairs of reads must be around 400 bp from each other helps alignment algorithms in determining where these reads align to the reference genome. However, if there is a deletion event in a given region, there isn’t DNA from this portion of the reference genome to be sequenced and thus mapped back to the reference. Thus, for reads in the deletion region, the R1 reads will be mapped to the left of the region in the reference genome, and the R2 reads will be mapped to the right of the region in the reference genome, leaving an empty gap of no reads mapping to the deletion region. Furthermore, we can keep track of which reads are pairs, and we can calculate their insert size. If the reads span the deletion region, and the region is significantly larger than 400 bp, the insert size will appear much larger than 400 bp, even though we know this cannot be true since the reads came from the same 700 bp fragment! This allows us to search read pairs for large insert sizes to identify potential deletion regions.</p>
+
+<p>To visualize what I’ve described above, we’ll use a publically available BAM file. BAM files are the file format for containing mapped sequence reads. The BAM file is available under Data <a href="https://bioinformatics-core-shared-training.github.io/intro-to-IGV/">at this site</a>. I will use wget, a command line tool, to download the data. Here is the code I used, although feel free to download the BAM file however you want. This will download the BAM file to the <code class="highlighter-rouge">bam-files</code> directory, and took about 8 minutes on my laptop.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>mkdir -p bam-files
+<span class="nb">cd </span>bam-files
+wget <span class="s2">"http://content.cruk.cam.ac.uk/bioinformatics/CourseData/IntroToIGV/HCC1143.normal.21.19M-20M.bam"</span>
+</code></pre>
+</div>
+
+<p>Now we will move to R. First we will download the necessary packages from <a href="https://bioconductor.org/">Bioconductor</a>.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">source</span><span class="p">(</span><span class="s2">"https://bioconductor.org/biocLite.R"</span><span class="p">)</span><span class="w">
+</span><span class="n">biocLite</span><span class="p">(</span><span class="s2">"GenomicRanges"</span><span class="p">)</span><span class="w">
+</span><span class="n">biocLite</span><span class="p">(</span><span class="s2">"GenomicAlignments"</span><span class="p">)</span><span class="w">
+</span><span class="n">biocLite</span><span class="p">(</span><span class="s2">"ggbio"</span><span class="p">)</span><span class="w">
+</span><span class="n">biocLite</span><span class="p">(</span><span class="s2">"Rsamtools"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Because I already know the region where the deletion is, I can specify this region in R using a <code class="highlighter-rouge">GenomicRanges</code> object. For more on <code class="highlighter-rouge">GenomicRanges</code>, I highly recommend reading <a href="https://kasperdanielhansen.github.io/genbioconductor/html/GenomicRanges_GRanges_Usage.html">Kasper Hansen’s guide</a>. Here, my region of interest is in chromosome 21 (whether it’s written <code class="highlighter-rouge">21</code> or <code class="highlighter-rouge">chr21</code> depends on the reference genome), and I’m interested in bases 19326000-19330000. The autoplot function, from the <code class="highlighter-rouge">ggbio</code> package, does quite a lot in this one function call. It extracts all short reads from the BAM file that overlap with my region of interest, determines which ones are paired, and uses <code class="highlighter-rouge">ggplot2</code> to plot the short reads (larger black rectangles), with read pairs connected by a line. The x-axis shows where in chromosome 21 we are, in basepairs, relative to the start.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">GenomicRanges</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggbio</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">Rsamtools</span><span class="p">)</span><span class="w">
+</span><span class="n">region.interest</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GRanges</span><span class="p">(</span><span class="s2">"21"</span><span class="p">,</span><span class="w"> </span><span class="n">IRanges</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19326000</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19330000</span><span class="p">))</span><span class="w">
+</span><span class="n">bamfile</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="s2">"bam-files"</span><span class="p">,</span><span class="w"> </span><span class="s2">"HCC1143.normal.21.19M-20M.bam"</span><span class="p">)</span><span class="w">
+</span><span class="n">indexBam</span><span class="p">(</span><span class="n">bamfile</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##       bam-files/HCC1143.normal.21.19M-20M.bam
+## "bam-files/HCC1143.normal.21.19M-20M.bam.bai"
+</code></pre>
+</div>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">autoplot</span><span class="p">(</span><span class="n">bamfile</span><span class="p">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region.interest</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gapped.pair"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/img/blog_images/visualizing-genomic-deletions_files/figure-html/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>We can see that between 19327000 and 19329000 basepairs there are no reads, and only long lines connecting read pairs. Because these long lines represent the inserts between read pairs, and they’re over 2000 bp long (significantly larger than the insert size between read pairs outside of this region), we see a clear deletion!</p>
+
+<p>While this is just one type of structural variation, I hope this post helps clarify how you can easily visualize structural variants in R, either for verification of software results, or for exploration. If you have other ways of visualizing structural variants in R, please share via twitter, email, or the comments section.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            R, Bioconductor, Bioinformatics
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+
+  <!--- Share on Twitter -->
+  
+    <a href="https://twitter.com/intent/tweet?text=Visualizing+genomic+deletions+in+R+http://localhost:4000/2018-01-15-visualizing-genomic-deletions/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+    </a>
+  
+
+  <!--- Share on Facebook -->
+  
+
+  <!--- Share on Google Plus -->
+  
+
+  <!--- Share on LinkedIn -->
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2018-01-08-explaining-confidence-intervals/" data-toggle="tooltip" data-placement="top" title="Explaining frequentist confidence intervals">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'jfiksel-site';
+	    /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

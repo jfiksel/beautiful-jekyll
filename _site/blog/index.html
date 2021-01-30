@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Blog</title>
+
+  <meta name="author" content="Jacob Fiksel" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Jacob Fiksel - Site & Blog" href="/feed.xml" />
+
+  
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Blog" />
+  
+
+   
+  <meta property="og:description" content="
+  Blog
+  {% for post in site.posts %}
+  
+    
+      
+        {{post.date | date: &quot;%Y %b %d&quot;}}
+      
+      
+        {{post.title}}
+        {{post.subtitle}}
+      
+    
+  
+  
+  {% endfor %}
+
+">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/blog/" />
+  <link rel="canonical" href="http://localhost:4000/blog/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@jfiksel1" />
+  <meta name="twitter:creator" content="@jfiksel1" />
+
+  
+  <meta name="twitter:title" content="Blog" />
+  
+
+  
+  <meta name="twitter:description" content="
+  Blog
+  {% for post in site.posts %}
+  
+    
+      
+        {{post.date | date: &quot;%Y %b %d&quot;}}
+      
+      
+        {{post.title}}
+        {{post.subtitle}}
+      
+    
+  
+  
+  {% endfor %}
+
+">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/zoomed_pic.jpg" />
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Jacob Fiksel</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/blog">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/cv">CV</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/papers">Papers</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/software">Software</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/zoomed_pic.jpg" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <div class="intro-header"></div>
+
+<div role="main" class="container">
+  <div class="container font-16">
+  <h2>Blog</h2>
+  
+  <a href="/2018-01-15-visualizing-genomic-deletions/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2018 Jan 15</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Visualizing genomic deletions in R</strong>
+        <br>
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2018-01-08-explaining-confidence-intervals/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2018 Jan 08</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Explaining frequentist confidence intervals</strong>
+        <br>
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2017-05-24-waic_aft_models_jags/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2017 May 24</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Calculating WAIC from Bayesian AFT models run in JAGS</strong>
+        <br>How the loo and R2jags packages make Bayesian computation fun and easy in R
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2017-02-26-cropping_images_with_a_shiny_app/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2017 Feb 26</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Cropping Images with a Shiny App</strong>
+        <br>Or why they call me Mr. Adobe
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2017-02-24-tips_for_visiting_graduate_programs/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2017 Feb 24</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Tips for Visiting Graduate Programs</strong>
+        <br>Advice from a 2nd year PhD student
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2017-02-07-visualizing-life-expectancy-in-baltimore-with-ggmap/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2017 Feb 07</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Visualizing life expectancy in Baltimore with ggmap and ggplot2</strong>
+        <br>Learning how to visualize spatial data with R
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+  <a href="/2017-01-25-hello-world/">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <code>2017 Jan 25</code>
+      </div>
+      <div class="col-md-9">
+        <strong>Blogging with Beautiful Jekyll and R Markdown</strong>
+        <br>How I got my website and blog set up!
+      </div>
+    </div>
+  </a>
+  <hr>
+  
+
+</div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          <li>
+            <a href="https://github.com/jfiksel" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/jfiksel1" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:jfiksel@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Jacob Fiksel
+		  &nbsp;&bull;&nbsp;
+		  2021
+
+		  
+	    </p>
+	        <!-- Please don't remove this, keep my open source work credited :) -->
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>
