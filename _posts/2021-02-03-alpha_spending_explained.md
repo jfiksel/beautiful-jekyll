@@ -128,7 +128,7 @@ of the z-score from the first interim analysis versus the final analysis from th
 plot(z_scores[,1], z_scores[,2], xlab = "Z-score IA", ylab = "Z-score FA")
 ```
 
-![]({{site_url}}/img/blog_images/alpha_spending_explained_files/figure-html/plot_zscores-1.png)<!-- -->
+![]({{site_url}}/img/blog_images/alpha_spending_explained_files/figure-html/plot_zscores-1.png)
 
 We see that they're actually correlated! This is unsurprising, because all of the patients used to calculate the z-score for the first interim analysis are also used the calculate the z-score in the final analysis. What exactly is the correlation?
 
