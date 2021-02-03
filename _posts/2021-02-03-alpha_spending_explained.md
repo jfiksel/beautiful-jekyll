@@ -212,7 +212,7 @@ ggplot(boundary_df, aes(x = t, y = critical_values, color = spending_function)) 
     labs(x = "Information Fraction", y = "Critical Value", color = "Spending Function")
 ```
 
-![]({{site_url}}/img/blog_images/alpha_spending_explained_files/figure-html/obf_vs_pocock-1.png)<!-- -->
+![]({{site_url}}/img/blog_images/alpha_spending_explained_files/figure-html/obf_vs_pocock-1.png)
 
 We can see a big difference between these two spending functions. The OBF spending
 function requires a large z-score to declare significance early on in the trial,
