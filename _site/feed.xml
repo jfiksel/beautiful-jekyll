@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Introduction to Conducting Interim Analyses Using Alpha Spending</title>
+        <description>
+          
+          In confirmatory (phase III) clinical trials, the goal is to test whether an experimental treatment is superior to a standard of care or placebo treatment. In designing the trial, health authorities require that type I error is strictly controlled–that is, if the experimental treatment is truly not better than the...
+        </description>
+        <pubDate>Wed, 03 Feb 2021 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2021-02-03-alpha_spending_explained/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021-02-03-alpha_spending_explained/</guid>
+      </item>
+    
+      <item>
         <title>Visualizing genomic deletions in R</title>
         <description>
           
