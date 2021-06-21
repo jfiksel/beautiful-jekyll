@@ -1,46 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: JFiksel_CV.aux
+The top-level auxiliary file: JFiksel_cv.aux
 The style file: unsrt.bst
 Database file #1: cvrefs.bib.bib
-You've used 11 entries,
+You've used 12 entries,
             1791 wiz_defined-function locations,
-            509 strings with 7380 characters,
-and the built_in function-call counts, 3819 in all, are:
-= -- 279
-> -- 337
-< -- 4
-+ -- 116
-- -- 105
-* -- 291
-:= -- 637
-add.period$ -- 33
-call.type$ -- 11
-change.case$ -- 11
+            516 strings with 7880 characters,
+and the built_in function-call counts, 3478 in all, are:
+= -- 205
+> -- 372
+< -- 2
++ -- 128
+- -- 116
+* -- 317
+:= -- 663
+add.period$ -- 36
+call.type$ -- 12
+change.case$ -- 12
 chr.to.int$ -- 0
-cite$ -- 11
-duplicate$ -- 169
-empty$ -- 235
-format.name$ -- 105
-if$ -- 826
+cite$ -- 12
+duplicate$ -- 110
+empty$ -- 220
+format.name$ -- 116
+if$ -- 687
 int.to.chr$ -- 0
-int.to.str$ -- 11
-missing$ -- 11
-newline$ -- 58
-num.names$ -- 11
-pop$ -- 30
+int.to.str$ -- 12
+missing$ -- 12
+newline$ -- 63
+num.names$ -- 12
+pop$ -- 29
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 134
+skip$ -- 43
 stack$ -- 0
-substring$ -- 150
-swap$ -- 85
-text.length$ -- 4
+substring$ -- 111
+swap$ -- 20
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 22
-width$ -- 13
-write$ -- 119
+while$ -- 23
+width$ -- 14
+write$ -- 128

@@ -78,16 +78,25 @@ Brian~T Garibaldi$^{*}$, \textbf{Jacob} \textbf{Fiksel$^{*}$}, John Muschelli,
   cohort study.
 \newblock {\em Annals of internal medicine}, 2020.
 
-\bibitem{GBQL}
-\textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, Agbessi {Amouzou}, and Scott
-  {Zeger}.
-\newblock {Generalized Bayesian Quantification Learning}.
-\newblock {\em arXiv e-prints}, page arXiv:2001.05360, Jan 2020.
+\bibitem{elledge2021external}
+Christen~R Elledge, Anna~W LaVigne, \textbf{Jacob} \textbf{Fiksel$^{*}$},
+  Jean~L Wright, Todd McNutt, Lawrence~R Kleinberg, Chen Hu, Thomas~J Smith,
+  Scott Zeger, Theodore~L DeWeese, et~al.
+\newblock External validation of the bone metastases ensemble trees for
+  survival (bmets) machine learning model to predict survival in patients with
+  symptomatic bone metastases.
+\newblock {\em JCO Clinical Cancer Informatics}, 5:304--314, 2021.
 
 \bibitem{compreg}
 \textbf{Jacob} \textbf{Fiksel}, Abhirup {Datta}, and Scott {Zeger}.
 \newblock A transformation-free linear regression for compositional outcomes
   and predictors.
-\newblock {\em arXiv e-prints}, page arXiv:2004.07881, April 2020.
+\newblock {\em Biometrics}, March 2021.
+
+\bibitem{GBQL}
+\textbf{Jacob} \textbf{Fiksel}, Abhirup Datta, Agbessi Amouzou, and Scott
+  Zeger.
+\newblock Generalized bayes quantification learning under dataset shift.
+\newblock {\em Journal of the American Statistical Association}, 2021.
 
 \end{thebibliography}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  15 JAN 2021 15:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 JUN 2021 11:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -359,17 +359,36 @@ s-tases to make per-son-al-ized
  []
 
 (./JFiksel_cv.bbl)
+
+LaTeX Warning: Citation `phallen2019early' undefined on input line 334.
+
+
+LaTeX Warning: Citation `cristiano2019genome' undefined on input line 335.
+
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 335.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 335.
- [1
+
+LaTeX Warning: Citation `fiksel2019using' undefined on input line 336.
+
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 337.
+
+[1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `alcorn2019frequency' undefined on input line 337.
+
+
 Overfull \hbox (2.33322pt too wide) in paragraph at lines 337--338
 \OT1/cmr/m/n/10 com-pli-cated symp-tomatic bone metas-ta-sis over a breadth of 
 op-er-a-tional def-i-ni-tions.
  []
+
+
+LaTeX Warning: Citation `BTL' undefined on input line 338.
 
 
 Overfull \hbox (7.27716pt too wide) in paragraph at lines 338--339
@@ -378,10 +397,16 @@ i-cal dis-tri-bu-tions.  \OT1/cmr/m/it/10 Bio-statis-tics\OT1/cmr/m/n/10 ,
  []
 
 
+LaTeX Warning: Citation `leal2020' undefined on input line 339.
+
+
 Overfull \hbox (1.88766pt too wide) in paragraph at lines 339--340
 \OT1/cmr/m/n/10 anal-y-ses for de-tec-tion of resid-ual dis-ease in gas-tric ca
 n-cer.  \OT1/cmr/m/it/10 Na-ture Com-mu-ni-ca-tions\OT1/cmr/m/n/10 ,
  []
+
+
+LaTeX Warning: Citation `BMETS' undefined on input line 340.
 
 
 Overfull \hbox (8.31648pt too wide) in paragraph at lines 340--341
@@ -396,10 +421,16 @@ le Trees for Sur-vival
  []
 
 
+LaTeX Warning: Citation `alcorn2020frequency' undefined on input line 341.
+
+
 Overfull \hbox (2.33322pt too wide) in paragraph at lines 341--342
 \OT1/cmr/m/n/10 com-pli-cated symp-tomatic bone metas-ta-sis over a breadth of 
 op-er-a-tional def-i-ni-tions.
  []
+
+
+LaTeX Warning: Citation `garibaldi2020patient' undefined on input line 342.
 
 
 Overfull \hbox (1.96382pt too wide) in paragraph at lines 342--343
@@ -408,37 +439,78 @@ Overfull \hbox (1.96382pt too wide) in paragraph at lines 342--343
  []
 
 
-Overfull \hbox (43.12714pt too wide) in paragraph at lines 361--362
-\OT1/cmr/m/n/10 re-gres-sion for com-po-si-tional out-comes and pre-dic-tors.  
-\OT1/cmr/m/it/10 arXiv e-prints\OT1/cmr/m/n/10 , page arXiv:2004.07881,
+LaTeX Warning: Citation `elledge2021external' undefined on input line 343.
+
+
+Overfull \hbox (7.69197pt too wide) in paragraph at lines 343--344
+\OT1/cmr/m/n/10 Mc-Nutt, Lawrence R Klein-berg, Chen Hu, Thomas J Smith, Scott 
+Zeger, Theodore L
  []
 
+
+LaTeX Warning: Citation `compreg' undefined on input line 344.
+
+
+LaTeX Warning: Citation `GBQL' undefined on input line 345.
+
+
+Overfull \hbox (6.16515pt too wide) in paragraph at lines 345--346
+\OT1/cmr/m/n/10 bayes quan-tifi-ca-tion learn-ing un-der dataset shift.  \OT1/c
+mr/m/it/10 Jour-nal of the Amer-i-can Sta-tis-ti-cal
+ []
+
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 377.
+
 [2]
-Overfull \hbox (24.83316pt too wide) in paragraph at lines 421--422
+Overfull \hbox (24.83316pt too wide) in paragraph at lines 427--428
 []\OT1/cmr/m/n/10 Organized bi-weekly stu-dent pre-sen-ta-tions on com-put-ing 
 re-lated top-ics for the Bio-statis-tics
  []
 
-Excluding 'comment' comment. 
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 460.
+
+[3] Excluding 'comment' comment.
+
+Package lastpage Warning: Rerun to get the references right on input line 474.
+
+
 AED: lastpage setting LastPage
-[3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
+
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 474.
+
+[4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 474.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 474.
  (./JFiksel_cv.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 468.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 468.
-Package rerunfilecheck Info: File `JFiksel_cv.out' has not changed.
-(rerunfilecheck)             Checksum: CA4A40181C0F43400E9B8A61DF17F598;729.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 468.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 474.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 474.
+
+
+Package rerunfilecheck Warning: File `JFiksel_cv.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `JFiksel_cv.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  816604DB5977FAE9840CF5B266877C97;675.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 474.
  ) 
 Here is how much of TeX's memory you used:
- 6151 strings out of 493014
- 90987 string characters out of 6133351
- 285251 words of memory out of 5000000
- 9625 multiletter control sequences out of 15000+600000
+ 6140 strings out of 493014
+ 90883 string characters out of 6133351
+ 284826 words of memory out of 5000000
+ 9612 multiletter control sequences out of 15000+600000
  7023 words of font info for 25 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,13n,43p,531b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,13n,43p,531b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
@@ -448,10 +520,10 @@ usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
 local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/lo
 cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/loca
 l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on JFiksel_cv.pdf (3 pages, 121820 bytes).
+Output written on JFiksel_cv.pdf (4 pages, 122890 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
- 41 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 122 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
+ 43 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
